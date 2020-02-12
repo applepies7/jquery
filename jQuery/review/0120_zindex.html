@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #container {
+            position: relative;
+        }
+
+        .common {
+            position: absolute;
+            /* 좌표를 부모기준으로 */
+            width: 210px;
+            left: 0px;
+            top: 0px;
+            border: 2px solid black;
+        }
+
+        img {
+            border: 1px dashed red;
+        }
+
+        #id_lay1 {
+            z-index: 1000;
+        }
+    </style>
+</head>
+
+<body>
+    <center>
+        <input type="text" id="id_disp" value="" size="4" disabled>
+        <!-- 사용자가 값을 못고치게 disabled(폼으로 묶여 있으면 서버전송X),  readonly(폼으로 묶여 있으면 서버전송O)-->
+        <input type="button" value="<" onclick="f_back()">
+        <input type="button" value=">" onclick="f_next()">
+        <br><br>
+        <div id="container">
+            <div id="id_lay3" class="common">
+                <img src="/home/pc43/Pictures/트와이스.jpeg" width=100 height=100>
+                <img src="/home/pc43/Pictures/블랙핑크.jpeg" width=100 height=100>
+                <img src="/home/pc43/Pictures/소녀시대.jpg" width=100 height=100>
+                <img src="/home/pc43/Pictures/아이즈원.jpeg" width=100 height=100>
+            </div>
+            <div id="id_lay2" class="common">
+                <img src="/home/pc43/Pictures/감.png" width=100 height=100>
+                <img src="/home/pc43/Pictures/두리안.jpeg" width=100 height=100>
+                <img src="/home/pc43/Pictures/딸기.jpg" width=100 height=100>
+                <img src="/home/pc43/Pictures/망고.png" width=100 height=100>
+            </div>
+            <div id="id_lay1" class="common">
+                <img src="/home/pc43/Pictures/images/ab_g4렉스턴.jpg" width=100 height=100>
+                <img src="/home/pc43/Pictures/images/ab_qm3.jpg" width=100 height=100>
+                <img src="/home/pc43/Pictures/images/ab_qm6.jpg" width=100 height=100>
+                <img src="/home/pc43/Pictures/images/ab_sm6.jpg" width=100 height=100>
+            </div>
+        </div>
+        <script>
+            var v_index = 1;   // 초기값 1
+            var v_disp = document.getElementById("id_disp");
+            var v_layCnt = document.getElementsByClassName("common").length;
+            v_disp.value = v_index + "/" + v_layCnt;  // 초기 세팅!
+
+            function f_next() {
+                //레이어 3개 모두 같은 z-index 값 할당
+                for (var i = 1; i <= v_layCnt; i++) {   // 현재 레이어 3개
+                    document.getElementById("id_lay" + i).style.zIndex = 10;
+                }
+                v_index++;
+                if (v_index == 4) { v_index = 1 };  // 3이 끝값이므로 1로 되돌림! 
+                //앞으로 꺼내려는 레이어만 z-index값 크게
+                document.getElementById("id_lay" + v_index).style.zIndex = 1000;
+                v_disp.value = v_index + "/" + v_layCnt;  // 세팅!
+            }
+            function f_back() {
+                //레이어 3개 모두 같은 z-index 값 할당
+                for (var i = 1; i <= v_layCnt; i++) {   // 현재 레이어 3개
+                    document.getElementById("id_lay" + i).style.zIndex = 10;
+                }
+                v_index--;
+                if (v_index == 0) { v_index = 3 };  // 1이 끝값이므로 3로 되돌림! 
+                //앞으로 꺼내려는 레이어만 z-index값 크게
+                document.getElementById("id_lay" + v_index).style.zIndex = 1000;
+                v_disp.value = v_index + "/" + v_layCnt;  // 세팅
+            }
+        </script>
+
+    </center>
+</body>
+
+</html>

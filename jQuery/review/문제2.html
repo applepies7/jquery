@@ -1,0 +1,85 @@
+<meta charset="UTF-8">
+<style>
+#id_ball{
+position: absolute;
+width: 100px;
+height: 100px;
+left: 100px;
+top: 100px;
+background-color: red;
+border-radius: 50px;
+}
+
+</style>
+<body>
+
+<div id="id_ball"> </div>
+<input type="button" value="움직여라" onclick="f_mv()">
+<input type="button" value="움직여라" onclick="f_stop()">
+
+
+<script>
+
+var v_ball = document.getElementById("id_ball");
+//인라인 스타일 접근법과 스타일 접근법이 다름
+var v_mvWidth=10;
+//중복방지 함수
+var onCheckFlag = false;
+
+function onClickCheck() {
+    if (onCheckFlag) {
+        return onCheckFlag;
+    }else{
+        f_move();
+        onCheckFlag = true;
+        return false;
+    }
+  // onClickCheck() 실행시 onCheckFlag는 1번 만 트루리턴 하고 나머지는 false 리턴  
+}
+
+var v_run = 0
+function f_mv() {
+    if (!v_run) {
+        v_run = 1
+        f_move();
+    }
+}
+
+// var i_width =window.innerWidth;
+//     alert (i_width)
+    
+
+var timer
+function f_stop() {
+    if (timer) {
+    clearTimeout(timer);
+    v_run = 0;
+    return v_run;
+    }
+
+// console.log(window.innerWidth())
+}
+
+function f_move() {
+    var i_width = window.innerWidth;
+
+    if(!v_ball.style.left){
+        v_ball.style.left = "100px";
+        }
+    if(parseInt(v_ball.style.left) >= i_width-100|| parseInt(v_ball.style.left) == 0){
+        v_mvWidth = -v_mvWidth;
+        
+    }
+
+    v_ball.style.left = parseInt(v_ball.style.left) + v_mvWidth + "px"
+        
+
+    timer = setTimeout(f_move,10);
+    return timer;
+}
+
+//상하좌우 해볼것.
+
+</script>
+</body>
+ 

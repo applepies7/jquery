@@ -1,0 +1,51 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <input type="button" value="눌러봐~" onclick="f_get()">
+    <div id="id_disp"></div>
+<script>
+
+function f_get() {
+    
+
+    var v_disp=document.getElementById("id_disp");
+//Asynchronouse JAvascript Xml -> (JSON)
+//구글에서 구글맵,Gmail에 도입으로 활성화 되어 현재 표준처럼 사용함.
+//사용자가 통신여부를 인지 못함. 같은 페이지에서 해당 데이터 갱신 
+    var v_ajax = new XMLHttpRequest(); //비동기 통신 대리인 생성
+    v_ajax.open("get","data.csv",true); 
+    //v_ajax.open("통신방식","URL",비동기통신여부(항상 true여야 함)); 
+    //동기/비동기  => 순차/ 비순차(대표적언어 node.js)
+    //
+
+    v_ajax.send();
+    v_ajax.onreadystatechange= function(){
+        //XMLHttpRequest로 부터 완료되었다는 메시지.서버쪽에 문제 없다는 메시지.
+        //readyState >0-4까지 코드 있음. 4 = 요청완료 및 응답준비
+        //status >http 상태값 (서버) 200 = ok
+        if(v_ajax.readyState == 4 && v_ajax.status == 200){
+            var v_cnt = v_ajax.responseText.split("\n");
+            for (var i = 0; i < v_cnt.length; i++) {
+                v_disp.innerHTML += v_cnt[i] + "<br>";
+            }
+            //전송받은 결과는 responseText에 담김
+        }
+    }
+
+}
+
+
+
+
+
+</script>
+
+</body>
+</html>

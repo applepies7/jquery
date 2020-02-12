@@ -1,0 +1,39 @@
+
+<meta charset="UTF-8">
+<script>
+    //더미 데이타 맹글어 넣기
+    localStorage.clear();  // 일단 싹 지우기
+
+    var v_datas=[];
+    var v_dataCnt = 11;
+    var v_cat = ["db","server","lang","network"];
+    for(var i=1; i<=v_dataCnt; i++){
+        var v_gul = {};            // 빈객체
+         v_gul.uid = "송주영" + i;
+         v_gul.title = "송주영 타이틀" + i;
+         v_gul.content = "송주영 내용"   + i;
+         var v_len = Math.round(Math.random()*2)+2;  // 2~4
+         //console.log("랜덤:",v_len);  확인, 0로 포함
+         var v_arr =[];
+         for(var j=0; j<v_len; j++){
+            var v_ranVal = v_cat[Math.floor(Math.random() * v_cat.length)];
+            //중복체크
+            var v_ck=false;  // 안 들어있다 가정
+            for(var k=0; k< v_arr.length; k++ ){
+                if(v_arr[k] == v_ranVal){
+                    v_ck = true;
+                    break;
+                }
+            }
+            if(!v_ck){
+                v_arr.push(v_ranVal);
+            }
+         }
+         v_gul.cat = v_arr;
+         v_gul.seq = i;
+         v_datas.push(v_gul);
+    }
+
+    localStorage.setItem("my_board",JSON.stringify(v_datas));
+    
+</script>

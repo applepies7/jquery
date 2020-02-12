@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>글보기</title>
+    <script src="applepies.js"></script>
+</head>
+
+<body>
+    <form action="modify.html" method="GET">
+        ID &nbsp; &nbsp; &nbsp; <input type="text" name="nm_id" value=""><br>
+        제목 &nbsp <input type="text" name="nm_title" value=""><br>
+        분류 &nbsp
+        <input type="checkbox" name="nm_cat" value="Db">DB
+        <input type="checkbox" name="nm_cat" value="Server">Server
+        <input type="checkbox" name="nm_cat" value="Dev">DEV
+        <input type="checkbox" name="nm_cat" value="Network">Network<br>
+        내용 &nbsp <textarea name="nm_content" value="" cols="40" rows="10"></textarea> <br>
+        <!-- 사용자에게는 안보이는 인풋값 필요할때 사용 -->
+        <input type="hidden" name="nm_seq" value="">
+        <input type="submit" value="등록">
+        <input type=button value="삭제" onclick="f_del()">
+        <!-- <input type="button" value="닫기" onclick="f_pmv()"> -->
+
+    </form>
+
+    <script>
+        function f_del() {
+            location.href = "delete.html?seq=" + request.getParameter("seq");
+        }
+
+
+
+        function f_pmv() {
+            // opener.location.replace("https://daum.net");
+            window.close();
+        }
+
+
+
+        function f_init() {
+            var v_tbl = "my_board";
+            var v_seq = request.getParameter("seq");
+            var v_records = JSON.parse(localStorage.getItem(v_tbl));
+            var v_schData;
+            for (var i = 0; i < v_records.length; i++) {
+                if (v_records[i].seq == v_seq) {
+                    v_schData = v_records[i];
+                    break;
+                }
+            }
+            document.getElementsByName("nm_seq")[0].value = v_seq;
+            document.getElementsByName("nm_id")[0].value = v_schData.uid;
+            document.getElementsByName("nm_title")[0].value = v_schData.title;
+            document.getElementsByName("nm_content")[0].value = v_schData.content;
+            var v_cat = document.getElementsByName("nm_cat")
+            for (var i = 0; i < v_schData.cat.length; i++) {
+                for (var j = 0; j < v_cat.length; j++) {
+                    if (v_cat[j].value == v_schData.cat[i]) {
+                        v_cat[j].checked = "true";
+                        break;
+                    }
+                }
+            }
+        }
+        window.onload = f_init;
+    </script>
+
+
+</body>
+
+</html>

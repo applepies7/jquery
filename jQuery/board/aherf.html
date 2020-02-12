@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<!-- 나쁜 사용 예 
+펑션 실행 과 페이지 넘김이 동시에 일어남. 넘어감.-->
+<a href="https://daum.net" onclick="f_check()">다음</a>
+
+
+<!-- 바른 예.. -->
+<a href="#" onclick="f_check()">다음</a>
+
+<script>
+function f_check() {
+    event.preventDefault()
+    //event.stopPropagation() /
+    alert("tttttttest");
+    location.replace("https://daum.net")
+}
+</script>
+
+</body>
+</html>

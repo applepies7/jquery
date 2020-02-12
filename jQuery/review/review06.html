@@ -1,0 +1,36 @@
+<meta charset="UTF-8">
+ 
+<body>
+
+    <form action="" method="GET" onsubmit="return f_beforeSubmit()">
+        <!-- get 방식으로 개발 이후 적용 -->
+        이름 <input type="text" name="nm_name" value="" required ><br>
+        <!-- <input type="button" value="submit" onclick="f_send()"> -->
+        <input type="submit" value="submit" >
+        <input type="button" value="reset" onclick="f_reset()">
+    </form>
+
+
+<script>
+function f_send() {
+//전송전  입력값의 체크를 위해 자바스크립트 탄생
+//입력값의 이상유무를 클라이언트에서 걸러내므로 서버 부하를 줄임
+
+//document.forms[0].submit();
+document.getElementsByTagName("form")[0].submit();
+    
+}
+
+function f_reset() {
+//document.forms[0].submit();
+document.getElementsByTagName("form")[0].reset();
+    
+}
+
+function f_beforeSubmit() {
+    return false;    
+}
+
+</script>
+
+</body>

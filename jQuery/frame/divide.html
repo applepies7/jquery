@@ -1,0 +1,26 @@
+<!-- 화면나눌때 편함 html표준에서는 빠짐(보안이슈) 내부망용으로는 사용ok -->
+
+<frameset rows='30%,*'>
+    <frame src='a.html'></frame>
+    <frameset cols='30%,*'>
+        <frame src='b.html'></frame>
+        <frame src='c.html'></frame>
+    </frameset>
+
+</frameset>
+
+<!-- 
+    
+    <frameset rows='10%,*' >
+        <frame src='a.html'></frame>
+        <frameset cols='20%,*,10%'>
+            <frameset rows='50%,*'>
+                <frame src='b.html'></frame>
+                <frame src='b.html'></frame>
+            </frameset>
+            <frame src='c.html'></frame>
+            <frame src='c.html'></frame>
+        </frameset>
+        
+    </frameset>
+-->

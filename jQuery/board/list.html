@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<script src="applepies.js"></script>
+
+<body>
+
+
+
+
+    <script>
+        out.print("<h1>게시판 목록 페이지</h1>");
+        var v_tbl = "my_board"
+        //record 가져오기
+        var v_tbl1 = "<table border>"
+        v_tbl1 += "<tr><th>글번호</th><th>아이디</th><th>제목</th><th>카테고리</th><th>선택</th></tr>"
+        var v_records = JSON.parse(localStorage.getItem(v_tbl));
+        for (var i = 0; i < v_records.length; i++) {
+            var v_red = v_records[i]
+            v_tbl1 = v_tbl1 + "<tr><td>" + v_red.seq + "</td><td>" + v_red.uid + "</td><td><a href='detail.html?seq=" +
+                v_red.seq + "'>" + v_red.title +
+                "</a></td><td>" + v_red.cat +
+                "</td><td><input type='checkbox' name='nm_cks' value='" + v_red.seq + "'></td></tr>";
+        }
+        v_tbl1 = v_tbl1 + "</table>";
+        out.print(v_tbl1);
+
+
+        function f_detail(p_seq) {
+            window.open("detail.html?seq=" + p_seq, "글보기", "width=400, height=350 left=300")
+        }
+
+        function f_del() {
+            var v_chk = [];
+            var z = 0;
+            var v_chkbox = document.getElementsByName("nm_cks");
+            for (let i = 0; i < v_chkbox.length; i++) {
+                if (v_chkbox[i].checked) {
+                    v_chk[z] = v_chkbox[i].value;
+                    z++
+                }
+            }
+            for (let i = 0; i < v_records.length; i++) {
+                for (let j = 0; j < v_chk.length; j++) {
+                    if (v_records[i].seq == v_chk[j]) {
+                        v_records.splice(i, 1);
+                    }
+                }
+            }
+            localStorage.setItem(v_tbl, JSON.stringify(v_records)); // 저장
+            alert("잘 삭제 되었습니당!");
+            location.replace("list.html");
+        }
+
+        function f_allchktrue() {
+            var v_chk = [];
+            var v_chkbox = document.getElementsByName("nm_cks");
+            for (let i = 0; i < v_chkbox.length; i++) {
+                v_chkbox[i].checked = true;
+                v_chk[i] = v_chkbox[i].value;
+            }
+            // var v_records = [];
+            // console.log(v_chk)
+            // v_records = JSON.parse(localStorage.getItem(v_tbl));
+            // for (let i = 0; i < v_records.length; i++) {
+            //     for (let j = 0; j < v_chk.length; j++) {
+            //         if (v_records[i].seq == v_chk[j]) { // 찾았다면 
+            //             v_records.splice(i, 1);
+            //         }
+            //     }
+            // }
+            // localStorage.setItem(v_tbl, JSON.stringify(v_records)); // 저장
+            // alert("잘 삭제 되었습니당!");
+            // document.location.reload();
+        }
+        var v_checked = false; // 전부 해제되어있는 상황을 false로 지정
+
+        function f_selAll() {
+            var v_chkbox = document.getElementsByName("nm_cks");
+            if (!v_checked) {
+                for (var i = 0; i < v_chkbox.length; i++) {
+                    v_chkbox[i].checked = true;
+                }
+                v_checked = true;
+                return; //   함수 강제 종료
+            }
+            for (var i = 0; i < v_chkbox.length; i++) {
+                v_chkbox[i].checked = false;
+            }
+            v_checked = false;
+        }
+
+        function f_allchkfalse() {
+            var v_chkbox = document.getElementsByName("nm_cks");
+            for (let i = 0; i < v_chkbox.length; i++) {
+                v_chkbox[i].checked = false;
+            }
+        }
+        // var v_records = [];
+        // console.log(v_chk)
+        // v_records = JSON.parse(localStorage.getItem(v_tbl));
+        // for (let i = 0; i < v_records.length; i++) {
+        //     for (let j = 0; j < v_chk.length; j++) {
+        //         if (v_records[i].seq == v_chk[j]) { // 찾았다면 
+        //             v_records.splice(i, 1);
+        //         }
+        //     }
+        // }
+        // localStorage.setItem(v_tbl, JSON.stringify(v_records)); // 저장
+        // alert("잘 삭제 되었습니당!");
+        // document.location.reload();
+    </script>
+    <a href="write.html">새글 쓰기~~~</a>
+    <input type="button" value="선택삭제" onclick="f_del()">
+    <input type="button" value="전체선택" onclick="f_selAll()">
+</body>
+
+</html>

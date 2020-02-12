@@ -1,0 +1,55 @@
+<meta charset="UTF-8">
+=
+<script>
+
+//JSON (JavaScript Object Notation) 자바스크립트 객체 표기법
+//데이터 전송포맷으로 범용적으로 활용되고 있음.
+//묶음 변수라고 보면 좋음 ;
+// var v_json1 = { //메소드는 보낼수 없음 따라서 아래의 방법을 추천함.
+//     name = "seo", 
+//     alias = "hi",
+//     alias2  = "hi"
+// }
+
+
+var v_json = {}; 
+v_json.name = 'seo';
+v_json.alias = "hi";
+v_json['alias2'] = "hi2";
+
+v_json.method1 = function(p_who,p_arg) {
+    //alert(p_who + "님 " + this.v_json.alias2);
+    
+    alert(p_who + "님 " + p_arg + this.alias2);
+
+console.log(this);    //this -> v_json
+}
+//v_json.method1("고용한"); //
+
+var v_aaa = v_json.method1; //함수 뒤에 함수 포인터()를 붙이면 함수가 실행되어 결과가 변수에 할당됨. 
+
+//method1 의 this 
+
+v_aaa("상등심");  //this 는 window 객체 
+
+v_aaa.call(v_json,"양븅심","븅븅븅"); // 첫번째 매개변수를 메서드에서 this로 받음 v_json
+v_aaa.apply(v_json,["상븅~~~","븅븅븅"]); //선택하여 사용 call과 달리 두번째 매개변수를 배열에 담아야 함. 
+
+//this
+
+// var v_myVar = "븅~~~~~" //변수는 window. 인것과 같음. (변수이나 실제로는 속성)
+// //객체 펑션 모두 window.v_myVar = "븅~~~~~"; 과 같음
+
+// var f_myFunc = function () {
+//  alert("무시가 답");    
+// }
+
+// console.log(this.v_myVar); // this window
+// this.f_myFunc();
+
+// function f_myFunc2() {
+//     console.log(this); //this ? ->  window
+// }
+// f_myFunc2(v_json);
+
+</script>

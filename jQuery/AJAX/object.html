@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+
+    <select name="" id="id_sel">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3" selected="selected">3</option>
+        <option value="4">4</option>
+    </select>
+
+    1<input type=checkbox value="1">
+    2<input type=checkbox value="2" checked>
+    3<input type=checkbox value="3">
+    4<input type=checkbox value="4" checked>
+
+
+    <div id="id_d1">흥</div>
+    <div id="id_d2">치</div>
+    <div id="id_d3">피</div>
+    <div id="id_d4">헉</div>
+
+    <script>
+        //즉시 실행함수 (익명함수)() 호출 하지 않아도 바로 실행
+        //자원절약 + 코드 가독성 == 익명함수 사용과 동일
+        // (function(params) {
+        //   alert(params);  
+        // })("요기에 파라미터 입력");
+
+
+
+
+        // function $(p_sel) {
+        //     var v_elems = document.querySelectorAll(p_sel);
+        //     this.length = v_elems.length;
+        //     for (var i = 0; i < v_elems.length; i++) {
+        //         this[i] = v_elems[i];
+        //     }
+        //     return this;
+        // }
+
+        // jQuery 코어 익명함수 안에 호출함수와 클래스형 함수를 포함하는 형태가 제이쿼리 기본개념
+        (function (p_win) {
+            var $ = function (p_sel) {
+                return new myDom(p_sel);
+            }
+
+            function myDom(p_sel) { //해당 클래스형 함수 호출
+                var v_elems = document.querySelectorAll(p_sel);
+                this.length = v_elems.length;
+                for (var i = 0; i < v_elems.length; i++) {
+                    this[i] = v_elems[i];
+                }
+                return this;
+            }
+            p_win.$ = $; // window.$ = $;와 같음. //즉시실행함수의 파라미터가 윈도우.  
+            $.fn = myDom.prototype;
+        })(window);
+
+        // $.fn.html = function (p_html) {
+        //     for (let i = 0; i < this.length; i++) {
+        //         this[i].innerHTML = p_html;
+        //     }
+        //     return this; //매소드 체이닝 (객체 반환으로 메소드를 계속 붙여 사용 가능)
+        // }
+
+
+        // var v_divs = $("div"); 
+
+        // v_divs.html("배고파~~~")
+
+        $.fn.html = function (f_callback) {
+            for (let i = 0; i < this.length; i++) {
+                f_callback(i, this[i]); //인덱스와 개별 개체를 넘겨줌
+            }
+            return this; //매소드 체이닝 (객체 반환으로 메소드를 계속 붙여 사용 가능)
+        }
+
+        var v_divs = $("div");
+
+        v_divs.html(function(p_idx,p_elem) {
+            //alert(p_idx + ":" + p_elem.innerHTML);
+            if(p_idx == 0){
+            p_elem.innerHTML  = "배고파   " + p_idx;
+            }           
+        }).html(function(p_idx,p_elem) {
+            //alert(p_idx + ":" + p_elem.innerHTML);
+            if(p_idx == 1){
+            p_elem.innerHTML  = "짜증나   " + p_idx;
+            }           
+        }).html(function(p_idx,p_elem) {
+            //alert(p_idx + ":" + p_elem.innerHTML);
+            if(p_idx == 2){
+            p_elem.innerHTML  = "커피내놔   " + p_idx;
+            }           
+        }).html(function(p_idx,p_elem) {
+            //alert(p_idx + ":" + p_elem.innerHTML);
+            if(p_idx == 3){
+            p_elem.innerHTML  = "돌 솥~~~~~~~~~~~~~~~~~~~~~~~~~~~~~!   " + p_idx;
+            }           
+        });
+
+
+
+
+
+
+
+
+        // $.fn.html = function () {
+        //     console.log(this); //객체 자신을 지칭
+        //     return this; //매소드 체이닝 (객체 반환으로 메소드를 계속 붙여 사용 가능)
+        // }
+
+
+        // var v_ckboxs = $("input[type=checkbox]"); //함수로 쓸때
+
+        // console.log($.fn)
+
+
+        // console.log(v_ckboxs.html());
+        // v_ckboxs.html()
+
+
+
+        // new를 쓰지 않고 싶다면 경유 하는 함수로 
+        // function $(p_sel) { 
+        //     return new myDom(p_sel);
+        // }
+
+        //해당 클래스형 함수 호출
+        // function myDom(p_sel) { 
+        //     var v_elems = document.querySelectorAll(p_sel);
+        //     this.length = v_elems.length;
+        //     for (var i = 0; i < v_elems.length; i++) {
+        //         this[i] = v_elems[i];
+        //     }
+        //     return this;
+        // }
+
+        //함수를 클래스 처럼 쓰면 this는 자신의 인스턴스을 참조하지만
+        //함수를 함수로 쓰는 경우 this는 브라우저의 window객체를 참조.
+        // var v_ckboxs = new $("input[type=checkbox]"); //클래스처럼쓸때
+        // var v_ckboxs = $("input[type=checkbox]"); //함수로 쓸때
+
+        //console.log(v_ckboxs);
+
+        //  console.log(document.querySelector("*"));
+        //   console.log(document.querySelector("select[id=id_sel]:selected")); 잠시뒤에
+        //   console.log(document.querySelectorAll("input[type=checkbox]:checked"));
+
+
+
+
+        // console.log(document.querySelector("#id_sel")[2]); //css 선택자를 이용해서 객체선택 할때 찾은값 첫번째만 리턴
+        // console.log(document.querySelectorAll("#id_sel"));
+
+
+        // document.querySelectorAll(); //찾은값 전체 리턴 
+        // //리얼타임으로 동작하지 않는 경우 있다고 함. (약간의 문제가 있을 수도 있음.)
+
+
+
+
+
+
+
+
+
+        //function 의 다른 의미 (es6버전에는 class키워드가 있음.)
+
+        // var staticObj = {};
+        // staticObj.attr = "ㅋㅋ";
+        // staticObj.disp = function () {
+        //     alert("키키키");
+        // }
+
+        // function box(p_w, p_h) {
+        //     this.width = p_w; //function 안의 this가 보이면 function 키워드를 class라 생각하면 좋음
+        //     this.height = p_h;
+        //     this.method = function () {
+        //         alert(this.width);
+        //         alert(this.height);
+        //     }
+        //     return this;
+
+        // }
+
+        // var v_box1 = new box(200, 300);
+        // var v_box2 = new box(20, 30);
+        // v_box2.method();
+
+
+        // //prototype 같은 개체는 속성은 각자 보유하고  매서드는 하나로 공유함. 
+        // box.prototype.method = function () {
+        //     alert(this.width);
+        //     alert(this.height);
+
+        // }
+
+
+
+
+
+
+        // alert(v_box1.width);
+        // alert(v_box1.height);
+
+        // console.log(v_box1);
+    </script>
+
+</body>
+
+</html>
