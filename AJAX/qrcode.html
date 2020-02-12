@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <img id="id_qr" src="#" alt="QR코드가 나올자리" width=100 height=100><br>
+    <img id="id_ava" src="#" alet="랜덤아바타" width=100 height=100><br>
+    <input type=text id="myQr" value>
+    <input type=button value="눌렁" onclick="f_qrcode()">
+    <script>
+        var v_img = document.getElementById("id_qr");
+        var v_ava = document.getElementById("id_ava");
+        function f_qrcode(){
+            var v_userInput = document.getElementById("myQr").value;
+            var v_imgURL = "https://quickchart.io/qr?text=" + v_userInput +
+                                       "&dark=ff0000&light=00ff00&ecLevel=H";
+            var v_avaURL = "https://api.adorable.io/avatars/285/"+ v_userInput +".png";
+            v_img.src = v_imgURL;   // Qrcode 디스플레이
+            v_ava.src = v_avaURL;    // 아바타 디스플레이
+        }
+    </script>
+</body>
+</html>

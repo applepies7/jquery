@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <input type="button" value="눌러봐~" onclick="f_get()">
+    <div id="id_disp"></div>
+<script>
+
+//자바스크립트 변수로 쓸수 있는 특수기호는 "$"과"_"
+var $={}; //빈객체 생성
+$.ajax = function(p_json) {
+    var v_disp=document.getElementById("id_disp");
+    var v_ajax = new XMLHttpRequest(); //비동기 통신 대리인 생성
+    v_ajax.open(p_json.type,p_json.url,true); //<-- 여기는 사용시 매개변수 변경
+    v_ajax.send();
+    v_ajax.onreadystatechange= function(){
+        if(v_ajax.readyState == 4 && v_ajax.status == 200){//<-- 여기까지는 고정
+            p_json.success(v_ajax.responseText);
+        }
+    }
+}
+//메소드 콜 (jquery ajax의 간략본)
+$.ajax(
+    
+    {         //json (데이터 묶음 객체)
+    type:"get", 
+    url:"data.csv", 
+    success:function(p_result){
+        alert(p_result)
+        }
+    } //함수까지 함께 넘긴 json 예제
+    )
+/*
+function f_get() {
+    //거의  기본템플릿
+    var v_disp=document.getElementById("id_disp");
+    var v_ajax = new XMLHttpRequest(); //비동기 통신 대리인 생성
+    v_ajax.open("get","data.csv",true); //<-- 여기는 사용시 매개변수 변경
+    v_ajax.send();
+    v_ajax.onreadystatechange= function(){
+        if(v_ajax.readyState == 4 && v_ajax.status == 200){//<-- 여기까지는 고정
+            var v_cnt = v_ajax.responseText.split("\n");
+            for (var i = 0; i < v_cnt.length; i++) {
+                v_disp.innerHTML += v_cnt[i] + "<br>";
+            }
+        }
+    }
+
+}
+
+*/
+
+
+
+</script>
+
+</body>
+</html>

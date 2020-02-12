@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+    </head>
+    <body>
+        <center id="aaa">
+            <!-- <h1> 넌 최고의 프로그래머  </h1>
+                <h2> 넌 최고의 프로그래머  </h2>
+                <h3> 넌 최고의 프로그래머  </h3>
+                <h4> 넌 최고의 프로그래머  </h4>
+                <h5> 넌 최고의 프로그래머  </h5>
+                <h6> 넌 최고의 프로그래머  </h6>
+                <h5> 넌 최고의 프로그래머  </h5>
+                <h4> 넌 최고의 프로그래머  </h4>
+                <h3> 넌 최고의 프로그래머  </h3>
+                <h2> 넌 최고의 프로그래머  </h2>
+                <h1> 넌 최고의 프로그래머  </h1> -->
+                
+            </center>
+            
+            <script>
+///오늘 과제 스크립트 반복문 한번만 써서 같은 내용이 나오게 해주세요
+function aaaa() {
+var j=5
+var str = '';
+var tocenter = document.getElementsByTagName("center");
+    for(var i = 1; i <= 11; i++) {
+        if (i <= 6 ) {
+            str += "<h"+ i + "> 넌 최고의 프로그래머  </h"+i+">";
+        }else{
+            str += "<h"+ j + "> 넌 최고의 프로그래머  </h" +j+ ">";
+            j--
+        }
+
+    }
+    tocenter[0].innerHTML=str;
+//alert(tocenter.item);
+
+}
+aaaa();
+
+// function bbbb() {
+// var j=5
+// var str = '';
+// var tocenter = document.getElementsByTagName("center");
+//     for(var i = 1; i <= 11; i++) {
+//         if (i <= 6 ) {
+//             tocenter[0].write("<h"+ i + "> 넌 최고의 프로그래머  </h"+i+">");
+//         }else{
+//             tocenter[0].write("<h"+ j + "> 넌 최고의 프로그래머  </h" +j+ ">");
+//             j--
+//         }
+
+//     }
+//     //tocenter[0].innerHTML=str;
+// //alert(tocenter.item);
+
+// }
+// bbbb()
+
+</script>
+</body>
+</html>

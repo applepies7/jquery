@@ -1,0 +1,73 @@
+
+<meta charset="UTF-8">
+<!-- 라이브러리로 만든 코드는 위쪽에 놓으면 좋음. -->
+<script src="myFunction.js"></script>
+
+<body>
+<h4>당신이 보유한 스킬을 체크 하세요</h4>
+
+자바<input type="checkbox" name="nm_skills"  onclick="f_ckCount(this)" value="JAVA">
+오라클<input type="checkbox" name="nm_skills" onclick="f_ckCount(this)" value="ORACLE">
+HTML<input type="checkbox" name="nm_skills" onclick="f_ckCount(this)" value="HTML">
+CSS<input type="checkbox" name="nm_skills" onclick="f_ckCount(this)" value="CSS">
+JS<input type="checkbox" name="nm_skills" onclick="f_ckCount(this)" value="JS">
+JSP<input type="checkbox" name="nm_skills" onclick="f_ckCount(this)" value="JSP">
+SPRING<input type="checkbox" name="nm_skills" onclick="f_ckCount(this)" value="SPRING">
+<br>
+<input type="button" value="누르세요~" >
+
+<script>
+    //사용자 입력 태그중 체크/셀렉트
+//document.getElementById("id_text").value = "흐흐흐";
+//document.body.innerHTML = "아 삭신 쑤셔....innerHTML은기존내용을 덮어씀"
+mylog("하이");
+//hoisting 실행엔진이 컴파일 시 코드를 일부 적절히 수정하는 것.
+
+function f_ckCnt(obj) {
+//4개 넘으면 체크했을때 4개까지만 된다고 메시지 띄우게 만들어 보세요
+
+var v_ckboxes= document.getElementsByName("nm_skills");
+var v_cnt = 0
+for (var i = 0; i <v_ckboxes.length; i++) {
+    if(v_ckboxes[i].checked){
+        v_cnt ++
+    }
+}
+if(v_cnt >4) {
+
+    alert("4개만 해.")
+    obj.checked = false;
+
+}
+}
+
+var v_ckCount = 0;
+function f_ckCount(obj) {
+    if(obj.checked){
+        v_ckCount++ ;
+    }else{
+        v_ckCount-- ;
+    }
+
+    if (v_ckCount > 4) {
+        alert("4개만")
+        obj.checked = false;
+        v_ckCount--    
+    }
+}
+/*
+// ++, --위치
+var v_aa = v_bb++;
+v_aa = v_bb;
+v_bb = v_bb + 1; 
+
+var v_dd = ++v_cc
+v_cc = v_cc +1 ;
+v_dd = v_cc;
+
+*/
+</script>
+</body>
+
+
+

@@ -1,0 +1,45 @@
+
+
+
+<meta charset="UTF-8">
+<script>
+    //json은 묶음 변수당(이것이 포인트)
+    /*
+    var v_json = {
+        attr="속성1",
+        attr1="속성2",
+        attr2="속성3",
+        method1 = function (){
+
+        }
+    }
+    */
+    /*
+    var v_json = {};
+    v_json.attr="속성1";
+    v_json.attr1="속성2";
+    v_json.attr2="속성3";
+    v_json.method1 = function(){  // 메소드 추가
+    }
+    */
+
+var v_test = {
+aaa:{
+    ppp:[1,
+        { kkk:
+        [
+                {
+                v_name:"송주영"
+            }
+        ]
+    }
+    ]
+}
+
+}
+
+alert(v_test.aaa.ppp[1].kkk[0].v_name)
+v_test.aaa.ppp[1].kkk[0].v_name = "송분노";
+alert(v_test.aaa.ppp[1].kkk[0].v_name)
+console.log(v_test)
+</script>

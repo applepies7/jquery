@@ -1,0 +1,39 @@
+    <meta charset="UTF-8">
+    
+<script>
+    
+    //스크립트 중요한 것 정리
+    //데이터 타입은 배열과 JSON이 제일 중요
+    //하지만 객체는 무거워 자바에서도 네이티브 라이브러리로
+    //방향 전환중
+    //파이선 = > 네이티브 라이브러리로 이동중
+
+
+var v_arr = []; //new array() 로 명시적 선언을 잘 쓰지 않음 (성능저하);
+
+//alert([] != []); // 객체이기때문에 다름 (reference )
+
+// var v_arr1 = v_arr; //같은 객체에 이름을 2개 붙인것
+// alert(v_arr != v_arr1); 
+
+for(var i=0; i <=10 ; i++ ){
+//v_arr[i] = i // not recommaded
+v_arr[v_arr.length] = i; //recommanded
+// v_arr.push(i); //recommanded
+
+}
+
+function v_arrCheck(p_arr) {
+                // 함수에서 매개변수로 받아서 지우려 할때
+    //p_arr = []; //특정 인덱스값을 바꾸는것은 가능하나 
+                //배열 전체를 지우는 것은 불가능
+    //그래서 중요한 메서드
+  p_arr.splice(0,p_arr.length) //매개변수 (인덱스 번호, 개수)
+
+}
+
+v_arrCheck(v_arr);
+//v_arr = [];
+alert(v_arr);
+
+</script>

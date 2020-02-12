@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+    
+
+
+
+
+
+<script>
+
+function pibo(p_day) {
+if (p_day==0||p_day==1) {
+    return 1;
+    }
+return pibo(p_day-2) + pibo(p_day-1);
+}
+/*
+3일 대입시.
+pibo(1) + pibo(2)  
+
+=> pibo(1) = 1 , pibo(2) = pibo(0)== 1  + pibo(1) == 1
+... return = 1 + 1 + 1 = 3
+
+만약 분열이 x일 주기라면
+
+var v_split = x
+function getCount(p_day) {
+    var cnt = Math.floor(p_day/v_split);
+    }
+    return pibo(cnt);
+
+*/
+
+for (let day = 0; day <= 10 ; day++) {
+   alert(day + "일차" + pibo(day)); 
+   }
+
+</script>
+
+
+</body>
+</html>

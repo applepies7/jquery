@@ -1,0 +1,117 @@
+
+리눅스 필수 기본명령어
+
+pwd : print word directory
+    현재 작업디렉토리 표시
+cd : change directory
+     cd만 입력하면 사용자 홈디렉토리 감
+ls : 목록
+
+cat, ,pre, less 파일내용 보기
+
+> : redirection 
+    출력방향 변경
+
+| : 파이프라인 
+    | 앞 명령을 뒷 명력의 입력으로 받아옴
+    ex ls -al | more  
+    ls -al 명령을 more 명령의 입력으로 받아옴
+
+& : 백그라운드 작업
+
+! 번호 : history의 해당 번호의 명령 실행
+
+
+man 명령어 : 매뉴얼
+
+history : 터미널 실행 이력 
+
+rm 삭제
+
+chmod 권한 설정 읽기 4 쓰기 2 실행 1
+        a:all u:user g:group  o:other
+        ex> chmod a+w 파일명 > 전체 실행자 w권한 추가
+
+grep 파일안의 특정 패턴검색  -i 대소문자 무시
+
+find ./ -name  "*.java" 
+
+sudo : 루트권한 명령어 실행 sudo find 
+        sudo su 루트권한 상태로 변경됨
+
+
+
+sudo find / -name "*.java" | xargs grep -i "javafx" > javafxlist.txt
+루트권한으로  루트디렉토리부터  확장자가 java인 파일을 찾고 그 파일의 내용이  "javafx"라는 패턴으로 검색
+하여 javafxlist.txt로 출력함
+
+ps -ef | grep -i
+프로세스 리스트를 보여주고 특정 프로세스를 찾음
+
+kill 프로세스 넘버  해당넘버의 프로세스를 제거함
+ kill -9 제거해도 다시 실행되는 프로세스를 계속 제거함
+
+chown 파일의 소유자를 변경함 chown user:group 변경할파일명 
+        전체 변경은 -R
+
+vi ========================================
+vi 에디터
+vi file  file을 연다
+i 입력모드 
+esc 메뉴모드
+
+dd 한줄지우기 3dd 3줄지우기
+
+yy 한줄복사 5yy 5줄 복사
+
+p 붙여넣기
+x한글자 지우기 3x세글자 지우기
+cw 단어바꾸기
+:w파일저장
+:wq저장후 종료
+:q! 강제종료
+:wq! 저장후 강제종료
+:넘버 해당라인가기
+
+/검색어
+vi ===============================
+which  검색
+
+
+
+
+우분투 소프트웨어 설치
+apt-cache search 
+sudo apt install apache2
+sudo service apache2 start
+
+
+
+
+공인아이피의 가격
+ -> 해당 상향(업로드)대역폭의 
+
+ /etc/apache2/apache2.conf 
+
+ <Directory />
+	Options Indexes FollowSymLinks
+	AllowOverride All
+	Require all granted
+</Directory>
+
+<Directory /usr/share>
+	Options Indexes FollowSymLinks
+	AllowOverride All
+	Require all granted
+</Directory>
+
+<Directory /var/www/>
+	Options Indexes FollowSymLinks
+	AllowOverride All
+	Require all granted
+</Directory>
+
+ 수정
+ 
+/etc/apache2/site-enabled/000-default.conf 
+Alias /jsstudy /home/pc15/jsStudy

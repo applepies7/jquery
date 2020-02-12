@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<style>
+    div{
+        border: 2px solid orange;
+        position: static;
+    }
+    /* #id_ps4{ */
+        /* position: relative a; */
+        /*static에서 부여 받은 자신의 좌표가 0.0이 됨   */
+        /* absolute는 브라우저 기준*/
+        /* left: 10px;  */
+        /* top: 10px; */
+    /* } */
+
+    /* 부모 relative 자식 absolute */
+    #id_ps3 {
+        position: relative;
+        left: 50px;
+
+    }
+    .child {
+        border: 2px solid rebeccapurple;
+        position: absolute;
+        top: 10px;
+    }
+    .child1 {
+        border: 2px solid rebeccapurple;
+        top: 20px;
+    }
+    .child2 {
+        border: 2px solid rebeccapurple;
+        top: 20px;
+    }
+    .child3 {
+        border: 2px solid rebeccapurple;
+        top: 20px;
+    }
+    .child4 {
+        border: 2px solid rebeccapurple;
+        top: 20px;
+    }
+</style>
+
+<body>
+
+    
+    <div id="id_ps1"> ㅁㄴㅇㅁㄴㅇㅁㄴㅇ1</div>
+    <div id="id_ps2"> ㅁㄴㅇㅁㄴㅇㅁㄴㅇ2</div>
+    <div id="id_ps3"> 3
+        <div class="child1">자식1</div>
+        <div class="child2">자식2</div>
+        <div class="child3">자식3</div>
+        <div class="child4">자식4</div>
+        
+    </div>
+    <div id="id_ps4"> ㅁㄴㅇㅁㄴㅇㅁㄴㅇ4</div>
+
+
+
+
+
+
+
+
+
+
+<script>
+//개발자가 알아야할 css (정적요소는 디자이너, 동적부분을 개발자가 지원)
+//display, position, overflow transform, z-index
+
+//display? => visibility(보이지않지만 자리는 있음.) 
+// >block(영역확보 아래로 붙임),inline-block(일정영역까지 옆으로),
+//inline(내용물에 따라),none (보이지 않게 자리차지않고 안보일뿐 문서상에는 존재)
+
+//position > static.relative(static 좌표에 따라 유동적으로) 
+//absolute,fixed
+
+
+</script>
+</body>
+</html>

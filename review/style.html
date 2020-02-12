@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">    <!-- 검색엔진에게 해당 페이지의 언어코드를 알려주어 검색결과에 반영함.   header footer등    -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>스타일접근법</title>
+</head>
+
+
+<style>
+/* 내부 스타일: 스타일 태그에 직접 넣는 것을 말함.
+해당 태그에 직접 스타일 넣는 것은 인라인 스타일
+*/
+    #innerStyle{
+        color: orange;
+        background-color: pink;
+    }
+    #gyh{
+        color: black;
+        background-color: red;
+    }
+</style>
+<!-- 외부 스타일 시트 -->
+<link rel="styleSheet" href="ext.css">
+
+<style>
+    #num2{
+        color: pink;
+        background-color: orange;
+    }
+</style>
+
+
+<body>
+
+<div style="font-size: 2em;" class="external">송주영</div>
+
+
+<script>
+// 내부 또는 외부 스타일 시트 접근시 주의점
+// http:\\ 로 가져온 것은 cssRules로 접근 불가(보안 이슈)
+//     https:\\ 로 가져온것은 cssRules 사용가능 
+//.style, .cssText, .selectorText 를 많이 씀
+
+// alert("첫번째 스타일 태그 : " +document.styleSheets[0].cssRules[0].style.color);
+// alert("첫번째 스타일태그 2번째 cssRules : " +document.styleSheets[0].cssRules[1].style.color);
+alert("두번째 스타일 태그 : " + document.styleSheets[1].cssRules[0].style.color);
+// alert("두번째 스타일 태그 cssText : " + document.styleSheets[1].cssRules[0].cssText);
+// alert("두번째 스타일 태그 selectorText : " + document.styleSheets[1].cssRules[0].selectorText);
+// alert("세번째 스타일 태그 : " + document.styleSheets[2].cssRules[0].style.color);
+// alert("세번째 스타일 태그 2번째 cssRules: " + document.styleSheets[1].cssRules[1].style.color);
+
+
+//자바스크립트 라이브러리 전문 회사가 아닌경우 이렇게 쓰는경우가 거의 없음
+//대부분 인라인스타일 제어방법 사용
+
+function rolrol(p_key,p_val) {
+    var v_sheetLen = document.styleSheets.length;
+    for (var i = 0; i < v_sheetLen; i++) {
+        var v_cssRuleLen = document.styleSheets[i].cssRules.length;
+        for (var j = 0; j < v_cssRuleLen; j++) {
+            if (document.styleSheets[i].cssRules[j].selectorText == p_key) {
+                document.styleSheets[i].cssRules[j].style.color=p_val;
+                break;
+            }
+        }
+        
+    }
+}
+rolrol(".external","yellow")
+
+</script>    
+
+</body>
+</html>

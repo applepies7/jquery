@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+
+<div id="id_disp"></div>
+<input type="file" multiple id="id_file" onchange="f_chgImg()" accept=".jpg, .jpeg, .png, .gif" name="" >
+
+
+
+<script>
+    function f_chgImg(){
+        var v_files = document.getElementById("id_file").files;
+
+        for(var i=0; i< v_files.length; i++){
+            var v_fileReader = new FileReader();
+            v_fileReader.readAsDataURL(v_files[i]);
+            console.log(v_fileReader.result);
+            v_fileReader.onload = (function(){
+                var v_img = document.createElement("img"); // 이미지 태그 생성
+                v_img.src = v_fileReader.result;
+                v_img.setAttribute("width","100");
+                v_img.setAttribute("height","100");
+                document.getElementById("id_disp").appendChild(v_img);
+            })(i);
+        }
+       // 여러개 읽은 이미지 파일들을 id_disp에 img태그를 생성하여
+       // 전부 넣도록 하세요. createElement("img")
+       
+    // 파일 1개만 처리하는 함수
+    function f_oneImg(p_file){
+        var v_fileReader = new FileReader();
+            v_fileReader.readAsDataURL(p_file);   // 파일 1개만
+            v_fileReader.onload = function(){
+                var v_img = document.createElement("img"); // 이미지 태그 생성
+                v_img.src = v_fileReader.result;
+                v_img.setAttribute("width","100");
+                v_img.setAttribute("height","100");
+                document.getElementById("id_disp").appendChild(v_img);
+            }
+    }
+
+    function f_chgImg(){
+        document.getElementById("id_disp").innerHTML="";
+        var v_files = document.getElementById("id_file").files;
+        for(var i=0; i< v_files.length; i++){
+            // 힌트 함수를 사용하자, 함수는 객체당!
+            f_oneImg(v_files[i]);                   // 파일 1개씩 매개변수로 넘김
+        }       
+
+
+
+
+
+
+
+    }</script>
+
+
+</body>
+</html>

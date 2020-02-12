@@ -1,0 +1,83 @@
+
+<head>
+    <meta charset="UTF-8">
+    <!-- script src 속성은 cross-origin 제약사항이 없어요-->
+    </head>
+    <body>
+        키워드<input type="text" id="id_sch">
+        <input type="button" value="검색" onclick="f_sch()">
+        <h1>검색된 이미지</h1>
+
+        <div id="id_disp"></div>
+    </body>
+    <script>
+        /*
+        //var v_str = "1+2+3-6" //문자열
+        var v_str = "document.getElementById('id_disp')";
+        alert(eval(v_str));
+        eval함수는 보안상 이유로 막고 있음.
+        */
+
+
+        /*
+        // JSON.stringify(객체) // 객체를 문자열로
+        // JSON.parse(문자열)  //문자열을 객체로
+        //문자열 var v_arr="[1,2,3]";
+        //배열 var v_arr=[1,2,3]; 
+        var v_arr="[1,2,3]";
+        v_arr = JSON.parse(v_arr);
+        alert(v_arr[1]);
+        */
+        /* //primitive 타입인 문자열은 인덱스로 접근은 가능하나 해당 인덱스값을 부분적으로 바꿀수 없음
+        //만약 바꾸려면 해당 문자열을 전부 바꾸어야함.
+        var v_str = "1234567";
+        alert(v_str[2]); //문자열도 인덱스로 읽을수 있음.
+        v_str[2] = "9"; 
+        alert(v_str);
+        */
+        var v_disp = document.getElementById('id_disp')
+
+        function f_sch() {
+            v_word = document.getElementById("id_sch").value;
+            var v_url = "https://www.flickr.com/services/feeds/photos_public.gne?tags=";
+            v_url = v_url+v_word+"&format=json";
+            var v_scr = document.getElementById("id_schurl") 
+            v_scr.src=v_url;
+            document.body.appendChild(v_scr);
+
+            
+        }
+
+        function jsonFlickrFeed(p_json){
+            console.log(p_json);
+            for (let i = 0; i < p_json.items.length; i++) {
+                var v_img = document.createElement("img"); // 이미지 태그 생성
+                v_img.src = p_json.items[i].media.m;
+                v_img.setAttribute("width","100");
+                v_img.setAttribute("height","100");
+                v_disp.appendChild(v_img);
+               console.log(p_json.items[i].media.m)  
+            }
+
+
+        }
+        /*
+           앗 공지사항
+           신종 코로나 환자가 학원에서 발생시 학원 휴원해야 하므로
+           아침 저녁으로 손세정제로 손을 깨끗히 합니다.
+        */
+       /*
+        var v_ajax = new XMLHttpRequest();
+        v_ajax.open("get","https://www.flickr.com/services/feeds/photos_public.gne?tags=dog&format=json",true);
+        v_ajax.send();
+        v_ajax.onreadystatechange = function(){
+            if(v_ajax.readyState == 4 && v_ajax.status == 200){
+                alert(v_ajax.responseText);// CROSS ORIGIN ERROR 발생
+                                                            // 해당 서버에서 세팅을 풀어줘야만 함.
+            }
+        }
+        */
+    </script>
+
+    <!-- JSONP JSON padding -->
+    <script id="id_schurl" src="https://www.flickr.com/services/feeds/photos_public.gne?tags=oddeye&format=json"></script> -->

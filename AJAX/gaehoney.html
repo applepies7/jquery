@@ -1,0 +1,25 @@
+<meta charset="UTF-8">
+<body>
+    <input type=text id="id_key" value="">
+    <input type=button value="검색" onclick="f_sch()">
+</body>
+<script>
+    //xml 데이타를 읽어서 json으로 바꿔서 돌려주는 사이트
+    //서버경유라서 자동으로 Cross Origin 문제도 해결되고, 자체서버의 부하도 없음
+    //단점은 아직 완벽하지 않음.(항상 테스트가 필수)
+    var v_proxyURL="https://api.rss2json.com/v1/api.json?rss_url=";
+    var v_saramIN = "http://api.saramin.co.kr/job-search/rss?keywords=";
+    var v_schKey = document.getElementById("id_key").value;
+    function f_sch(){
+        var v_ajax = new XMLHttpRequest();
+        var v_url = v_proxyURL + v_saramIN + v_schKey; 
+        v_ajax.open("GET",v_url,true);
+        v_ajax.send();
+        v_ajax.onreadystatechange = function(){
+            if(v_ajax.readyState == 4 && v_ajax.status == 200){
+                console.log(JSON.parse(v_ajax.responseText));
+            }
+        }
+    }
+
+</script>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #wrapper {
+            position: relative;
+        }
+
+        .child {
+            position: absolute;
+            left: 10px;
+            top: 10px;
+            border: 1px solid black;
+            background-color: black;
+            color: coral;
+        }
+
+        .child1 {
+            z-index: 1000;
+            /* z-index는 특별한 기준값 없이 무조건 크게 준 값이 맨 앞으로 나옴 */
+        }
+
+        .child2 {
+            z-index: 10;
+        }
+
+        .child3 {
+            z-index: 10;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="wrapper">
+        <div class="child child1">김수연</div>
+        <div class="child child2">심준수</div>
+        <div class="child child3">사승민</div>
+    </div>
+
+    <script>
+        //dispaly.position, z-index
+        //z-index -> 레이어 순서, 
+        //하이폰이 들어간 속성은 하이폰 빼고 다음글자응 대문자로
+        /*         document.getElementById("wrapper").children[1].style.zIndex = "9999"; */
+        //하이폰 쓰고 싶으면 배열식 접근법을 씀
+        document.getElementById("wrapper").children[1].style["zIndex"] = "9999";
+
+    </script>
+</body>
+
+</html>
