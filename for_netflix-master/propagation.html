@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<style>
+    #granma {
+        width: 300px;
+        height: 300px;
+        background-color: orange;
+    }
+
+    #ma {
+        width: 200px;
+        height: 200px;
+        background-color: red;
+    }
+
+    #na {
+        width: 100px;
+        height: 100px;
+        background-color: pink;
+    }
+</style>
+
+
+<body>
+    <div id="granma" onclick="f_granma()">할머니
+        <div id="ma" onclick="f_ma()">엄마
+            <div id="na" onclick="f_na()">나</div>
+        </div>
+
+        <!-- 이벤트 버블링 : 하위개체의 이벤트가 상위개체까지 전파됨. 
+            이벤트캡처링 : 이벤트의 전파를 막는것
+        event.stopPropagation(); 상위 개체에 이벤트가 전파되지 않음.
+        -->
+    </div>
+
+    <script>
+        function f_granma() {
+            alert("할머니");
+        }
+
+        function f_ma() {
+            alert("엄마");
+        }
+
+        function f_na() {
+            event.stopPropagation();
+            alert("나야 나");
+
+        }
+    </script>
+
+
+</body>
+
+</html>

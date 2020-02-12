@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>글쓰기</title>
+</head>
+
+<body>
+    <form action="writeProc.html" method="GET">
+        ID &nbsp; &nbsp; &nbsp; <input type="text" name="nm_id" value=""><br>
+        제목 &nbsp <input type="text" name="nm_title" value=""><br>
+        분류 &nbsp
+        <input type="checkbox" name="nm_cat" value="Db">DB
+        <input type="checkbox" name="nm_cat" value="Server">Server
+        <input type="checkbox" name="nm_cat" value="Dev">DEV
+        <input type="checkbox" name="nm_cat" value="Network">Network<br>
+        내용 &nbsp <textarea name="nm_content" value="" cols="40" rows="10"></textarea> <br>
+        <input type="submit" value="등록">
+
+
+
+    </form>
+</body>
+
+</html>
