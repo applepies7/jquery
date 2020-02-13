@@ -1,0 +1,31 @@
+
+<meta charset="UTF-8">
+<script src="sjy.js"></script>
+<script>  
+/* 
+ var v_str = "송주영씨 훌륭"; 
+ alert(v_str.replace("주영","흥"));  // 내부적으로 새로운 문자열을 생성하여 return
+ alert(v_str);  // v_str?   문자열은 내부 부분 수정이 불가, 원시타입(primitive 타입)은 불가
+                      // 멋진 말로 literal(리터럴) 이라고 부름
+v_str = v_str.replace("주영","흥");
+*/
+
+  // CRUD -> Create Read Update Delete -> 게시판
+    var v_seq= request.getParameter("seq");   // 글을 특정하는 고유값(key)
+   // 잘 분리한 값을 저장
+   var v_tbl = "myGesi";      
+                                         
+ // 여러개 json을 담으려면 배열이 필요
+ var v_records;
+  v_records = JSON.parse(localStorage.getItem(v_tbl));
+  for(var i=0; i< v_records.length; i++){
+      if(v_records[i].seq == v_seq){               // 찾았다면 
+        v_records.splice(i,1);                      //배열 요소 지우기
+      }
+  }
+
+// 변경된 데이타를 localstorage에 저장
+localStorage.setItem(v_tbl,JSON.stringify(v_records));  // 저장
+  alert("잘 삭제 되었습니당!");
+  location.replace("list.html");
+</script>

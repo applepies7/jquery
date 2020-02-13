@@ -1,0 +1,39 @@
+ // $(document).on("click","#id_table", function(){
+//     $(document).on("click",".link", function(){
+//                     f_toEditPage(1);
+//                 });
+//                 });
+
+//                 $(document).on('pagebeforeshow', '#id_table', function(){       
+//     $(document).off('click', '.link').on('click', '.link',function(e) {
+//         alert('Button click');
+//     }); 
+// });
+ 
+ 
+ //         $(document).on("click","#id_table", function(){
+        //             f_toEditPage(1);
+        //          });
+        //         $(document).on("click",".link", function(){
+        //             f_toEditPage(1);
+        //         });
+        //         $('body').on('click','.link', function(){
+        //             f_toEditPage(1);
+        //         $(document).on('click','f_toEditPage',function(e){
+        //             f_toEditPage($(this).html());
+        //         });
+        // });
+
+
+// $(document).on("click","#id_table", function(){
+    //     f_toEditPage(1)
+    // });
+    // $(document).on("click",".link", function(){
+    //     f_toEditPage(1);
+    // });
+    // $('body').on('click','.link', function(){
+    //                 f_toEditPage(1);
+    //     });
+    //     $(document).on('click','f_toEditPage',function(e){
+    //                 f_toEditPage($(this).html());
+    //             });

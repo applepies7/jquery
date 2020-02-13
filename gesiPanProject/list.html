@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="//cdn.ckeditor.com/4.13.1/standard/ckeditor.js"></script>
+    <style>
+        .container{
+        position: relative;
+        width: 700px;
+        height: 700px;
+    }
+    .container div{
+        position: absolute;
+        border: #73AD21;
+        border-radius: 10px;
+        left: 500px;
+    }
+    #id_editPage{
+        /* z-index: 10; 
+        
+        top: 10;
+    border: 2px solid #73AD21;
+        */
+        left: 200px;
+        width: 500px;
+        height: 500px;
+    }
+    #id_disp{
+        position: absolute;
+        /* z-index: -1; */
+        top: 0;
+        left: 0;
+    
+        
+    }
+    
+    </style>
+
+</head>
+<body>
+
+    <h1>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp자유게시판</h1>
+    <!-- <input type="button" value="임시버튼" class="btn btn-sm btn-primary" onclick="f_toEditPage(1)"> -->
+    <select name="" id="id_search_type" style="position: relative; left: 250px;">
+        <option value="s_id">아이디</option>
+        <option value="s_name">이름</option>
+        <option value="s_title">제목</option>
+        <option value="s_cont">내용</option>
+    </select>
+    <input type="text" value="" id="id_search" class="" style="position: relative; left: 250px;">
+    <input type="button" value="검색ㄱ" id="id_search_btn" class="btn btn-sm btn-primary" style="position: relative; left: 250px;">
+    <input type="button" value="새글쓰기" id="id_write_btn" class="btn btn-sm btn-primary" style="position: relative; left: 250px;">
+    <div class="container">
+        <div id="id_editPage" ></div>
+        <div id="id_disp"></div>
+    </div>
+    <div id="id_disp2"></div>
+    
+    <div class="container"></div>
+<script type="text/javascript">
+    var request = {};                                                  //빈객체 생성
+    request.getParameter = function(p_name){    //메소드 추가
+        var v_url = decodeURIComponent(location.href);
+        
+        if(v_url.indexOf("?") == -1) return null;   //아예 넘어온 값이 없다면 더 할 필요없이  종료
+        var v_datas =  v_url.split("?");
+        for(var i=0; i<v_datas.length; i++){
+            var v_amps = v_datas[i].split("&");
+            for(var j=0; j<v_amps.length; j++){
+                var v_equals = v_amps[j].split("=");
+                if(v_equals[0]==p_name){
+                    return v_equals[1];
+                }
+            }
+        }
+        return null;    //해당하는 name 값을 못 찾았을 경우
+    }
+
+    document.getElementById("id_write_btn").addEventListener("click", function(){
+        f_toWritePage();
+    })
+
+
+    var v_seq=1;
+    var v_page=1;
+    var v_mainTable="ativex";
+    var v_searchTable="ativex_search";
+    var searchWord = document.getElementById("id_search");
+
+
+    window.onload = init;
+    function init(){
+        var v_ajax = new XMLHttpRequest();
+        v_ajax.open("get","json.json",true);    //내 서버 경유
+        v_ajax.send();
+        v_ajax.onreadystatechange = function(){
+            if(v_ajax.readyState==4& v_ajax.status==200){     
+                document.getElementById("id_disp").innerHTML=""
+                
+                if(!localStorage.getItem(v_mainTable)){
+                    var v_jsonData = JSON.parse(v_ajax.responseText); 
+                } else{
+                    var v_jsonData = JSON.parse(localStorage.getItem(v_mainTable)); 
+                }
+                //console.log(v_jsonData[0].seq);
+                //console.log(document.getElementById("id_disp").innerHTML)
+                var v_tbl="<table class='table-bordered table-hover grid table' border=2 id='id_table'>";
+                v_tbl+="<tr><th>글넘버</th><th>아이디</th><th>이름</th><th>제목</th><th>내용</th><th>조회수</th></tr>";
+                var v_totalGulsu = v_jsonData.length;
+                var v_pageGulsu = 10;
+                var v_totalPage = Math.ceil(v_totalGulsu/v_pageGulsu);     //나머지가 있으면 +1
+                var v_curPage = 1;  //현재페이지 강제설정
+                // if(request.getParameter("page")){
+                //     v_curPage = request.getParameter("page");      //페이지 값이 파라미터로 넘어왔다면
+                // }
+                v_curPage = v_page; 
+
+                var startGulNum = (v_curPage-1)*v_pageGulsu;    //페이지에 해당하는 배열 start index
+                var endGulNum = startGulNum+v_pageGulsu;
+                
+                if(endGulNum>=v_totalGulsu){    //만약 전체 글수를 넘어서면 글수로 강제세팅
+                    endGulNum=v_totalGulsu;
+                }
+                
+                
+                for(var i =startGulNum; i<endGulNum; i++){
+                    var v_red = v_jsonData[i];
+                    //console.log(startGulNum, endGulNum, v_curPage);       
+                    v_tbl = v_tbl +  "<tr onclick=\"f_toEditPage(" + v_red.seq+ ")\" class='link'><td>"+  v_red.seq +"</td><td>"+ v_red.id 
+                         +"</td><td>"+ v_red.name + "</td ><td>"+  v_red.title + 
+                    "</td><td>" +   v_red.cont + "</td><td>" + v_red.hit +"</td></tr>" ;
+                }
+                
+                v_tbl+="</table>";
+
+                //전체페이지 링크 
+                v_tbl += "<ul class='pagination'>"
+                for(var j=1; j<= v_totalPage; j++){
+                    v_tbl += "<li><a href='#' onclick='f_pageSet(" +j + " )'>" + j +"</a>&nbsp</li>"
+                }
+                v_tbl += "</ul>"
+
+                document.getElementById("id_disp").innerHTML+=v_tbl;
+
+            }
+        }
+
+    }
+
+    
+    function f_toEditPage(seq){
+        v_seq = seq;
+
+        screenOpen();
+
+        $("#id_editPage").load("edit.html", {seq : seq});
+
+    }
+
+    function f_toWritePage(){
+        screenOpen();
+
+        $("#id_editPage").load("write.html");
+    }
+
+
+
+    // function f_search(){
+    //     var searchType = $("#id_search_type option:selected").val();
+    //     if(searchType==1){
+    //         searchWord.value
+    //     }
+    // }
+
+
+
+
+
+
+    function screenOpen(){
+        document.getElementById("id_disp").style.opacity=0.2;
+        document.getElementById("id_disp").style.zIndex=-1;
+        document.getElementById("id_write_btn").style.visibility="hidden";
+        document.getElementById("id_editPage").style.zIndex=10;
+    }
+
+
+
+    function f_pageSet(p_page){
+        v_page =p_page;
+        init();
+    }
+
+</script>
+</body>
+</html>

@@ -1,0 +1,95 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>글쓰기</title>
+</head>
+<body>
+    <form action="writeProc.html" method="GET">
+        글넘버 <input type="text" name="nm_seq" value="" readonly><br>
+        아이디 <input type="text" name="nm_id" value="" readonly><br>
+        이름 <input type="text" name="nm_name" value="" readonly><br>
+        제목 <input type="text" name="nm_title" value=""><br>
+        내용 <br>
+        <textarea name="nm_content" cols="40" rows="10"></textarea><br>
+        조회수 <input type="text" name="nm_hit" value="" readonly><br>
+        <input type=submit  value="수정">
+        <input type=button value="삭제" id="id_del">
+        <input type=button value="닫기" id="id_close" onclick="merong()">
+    </form>
+    <script>
+
+var request = {};                                                  //빈객체 생성
+request.getParameter = function(p_name){    //메소드 추가
+    var v_url = decodeURIComponent(location.href);
+    
+    if(v_url.indexOf("?") == -1) return null;   //아예 넘어온 값이 없다면 더 할 필요없이  종료
+    var v_datas =  v_url.split("?");
+    for(var i=0; i<v_datas.length; i++){
+        var v_amps = v_datas[i].split("&");
+        for(var j=0; j<v_amps.length; j++){
+            var v_equals = v_amps[j].split("=");
+            if(v_equals[0]==p_name){
+                return v_equals[1];
+            }
+        }
+    }
+    return null;    //해당하는 name 값을 못 찾았을 경우
+}
+    var v_ajax = new XMLHttpRequest();
+    v_ajax.open("get","json.json",true);    //내 서버 경유
+    v_ajax.send();
+    v_ajax.onreadystatechange = function(){
+        if(v_ajax.readyState==4& v_ajax.status==200){  
+            //var seq = request.getParameter("seq");
+            //console.log(decodeURIComponent(location.href));
+            //console.log(v_seq);
+            //console.log("메렁~");
+
+            var v_record = JSON.parse(v_ajax.responseText);
+            
+
+
+
+
+            var seq = document.getElementsByName("nm_seq")[0];
+            seq.value = v_record[index].seq;
+            var id = document.getElementsByName("nm_id")[0];
+            console.log(id);
+            id.value = v_record[index].id;
+            var title = document.getElementsByName("nm_title")[0];
+            title.value = v_record[index].title;
+
+            var name = document.getElementsByName("nm_name")[0];
+            name.value = v_record[index].name;
+            
+            var cont = document.getElementsByName("nm_content")[0]
+            cont.value = v_record[index].cont;
+
+            var hit = document.getElementsByName("nm_hit")[0]
+            hit.value = v_record[index].hit;
+
+            document.getElementById("id_del").onclick= function(){
+                //f_delete(index);
+                location.href("read.html");
+            } 
+
+        }    
+
+
+        window.onload = function(){
+            
+        }
+    }
+
+
+    function merong(){
+        //alert("메렁");
+        document.getElementById("id_editPage").innerHTML=""
+        document.getElementById("id_disp").style.opacity=1;
+    }
+    </script>
+</body>
+</html>

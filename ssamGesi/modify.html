@@ -1,0 +1,35 @@
+
+<meta charset="UTF-8">
+<script src="sjy.js"></script>
+<script>   
+
+  // CRUD -> Create Read Update Delete -> 게시판
+    var v_seq= request.getParameter("nm_seq");   // 글을 특정하는 고유값(key)
+    var v_uid = request.getParameter("nm_id");
+    var v_title = request.getParameter("nm_title");
+    var v_cat = request.getParameterValues("nm_cat"); 
+    var v_cont = request.getParameter("nm_content");  
+    while(v_cont.indexOf("+") != -1){                  // 찾았다면
+        v_cont = v_cont.replace("+","");                // 1개씩만 바꿈
+    }
+   // 잘 분리한 값을 저장
+   var v_tbl = "myGesi";      
+                                         
+ // 여러개 json을 담으려면 배열이 필요
+ var v_records = [];
+  v_records = JSON.parse(localStorage.getItem(v_tbl));
+  for(var i=0; i< v_records.length; i++){
+      if(v_records[i].seq == v_seq){               // 찾았다면 
+        v_records[i].uid = v_uid;                     // 해당 객체만 덮어쓰기
+        v_records[i].title = v_title;
+        v_records[i].cat = v_cat;
+        v_records[i].cont = v_cont;
+        console.log(v_records[i]);                   // 메모리상의 데이타변환 확인
+      }
+  }
+
+// 변경된 데이타를 localstorage에 저장
+localStorage.setItem(v_tbl,JSON.stringify(v_records));  // 저장
+  alert("잘 수정되었습니당!");
+  location.replace("list.html");
+</script>

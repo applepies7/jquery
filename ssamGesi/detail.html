@@ -1,0 +1,67 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="../review/images/roze01.jpg" type="image/x-icon">
+    <title>글읽기</title>
+    <script src="sjy.js"></script>
+</head>
+<body>
+    <form action="modify.html" method=get>
+        <!-- 사용자에게는 보여줄 필요가 없고, 프로그램상 필요한 값을 담을 때-->
+        <input type=hidden name="nm_seq" value="">
+        아이디 <input type=text name="nm_id" value="" ><br>
+        제목 <input type=text name="nm_title" value="" ><br>
+        분류(2개이상 체그해주세여)<br>
+        DB<input type="checkbox" name="nm_cat" value="db" >
+        서버<input type="checkbox" name="nm_cat" value="server" >
+        언어<input type="checkbox" name="nm_cat" value="lang" >
+        네트웍<input type="checkbox" name="nm_cat" value="network" ><br>
+        내용<br> 
+        <textarea cols="40" rows="10" name="nm_content" ></textarea><br>
+        <input type=submit  value="수정">
+        <input type=button value="삭제" onclick="f_del()">
+    </form>
+    <script>
+        function f_del(){
+            location.href = "delete.html?seq="+request.getParameter("seq");
+        }
+        function f_pmv(){
+            // 부모창 url을 daum.net으로 바꿔보세용, opener 키워드 기억합시당
+            opener.location.href="http://daum.net";
+        }
+
+        var v_tblN="myGesi";
+        function f_init(){
+            var v_seq = request.getParameter("seq");
+            document.getElementsByName("nm_seq")[0].value= v_seq;
+
+            var v_datas = JSON.parse(localStorage.getItem(v_tblN));
+            var schData;  // 찾을 데이타를 담을 변수
+            for(var i=0; i<v_datas.length; i++){
+                if(v_datas[i].seq == v_seq){
+                    schData = v_datas[i];
+                    break;
+                }
+            }
+            //가져온 값을 착착 넣어주면 됨!
+            document.getElementsByName("nm_id")[0].value= schData.uid;
+            document.getElementsByName("nm_title")[0].value =schData.title;
+            //여기서 테스트, 체크박스 처리해보세요
+            var v_cks = document.getElementsByName("nm_cat"); // 체크박스 4개
+            for(var i=0; i< schData.cat.length; i++){
+                var v_val = schData.cat[i];    // 순서대로 server,lang,network
+                for(var j=0; j< v_cks.length; j++){
+                    if(v_cks[j].value== v_val){          //체크박스의 value가 cat의 값과 일치하면
+                        v_cks[j].checked = true;         // 해당 체크박스를 강제 체크
+                    }
+                }
+            }
+            document.getElementsByName("nm_content")[0].value =schData.cont;
+        }
+        window.onload = f_init;
+    </script>
+</body>
+</html>

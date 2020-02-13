@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="id_disp">1</div>
+    <script>
+        window.onload = function(){
+        var v_ajax = new XMLHttpRequest();
+        v_ajax.open("get","json.json",true);    //내 서버 경유
+        v_ajax.send();
+        v_ajax.onreadystatechange = function(){
+            if(v_ajax.readyState==4& v_ajax.status==200){
+                document.getElementById("id_disp").innerHTML+="<button class='link' value='test' onclick='f_uck()'>test</button>"
+            }
+
+        }
+        }
+    function f_uck(){
+        console.log("??")
+        alert("?");
+    }
+    </script>
+</body>
+</html>

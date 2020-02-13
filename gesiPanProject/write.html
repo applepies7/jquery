@@ -1,0 +1,172 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>글쓰기</title>
+</head>
+<style>
+    #id_commDiv{
+        position: relative;
+        left: 0px;
+        width: 90%;
+    }
+    #mola{
+        left: 0px;
+        
+    }
+    #reple1{
+        position: relative;
+        display: inline-block;
+        left: 0px;
+        width: 80%;
+    }
+    #reple2{
+        position: relative;
+        display: inline-block;
+        left: 0px;
+        width: 15%;
+    }
+</style>
+
+<body>
+    <form action="writeProc.html" method="GET" class="table table-striped table-bordered ">
+
+        <table class="table table-striped table-bordered " id="table_outside">
+			<colgroup>
+				<col width="20%" />
+				<col/>
+			</colgroup>
+			<tr>
+				<th>글넘버</th>
+                <td><input type="text" name="nm_seq" value="" class="form-control" readonly>
+                </td>
+            </tr>
+            <tr>
+				<th>아이디</th>
+                <td><input type="text" name="nm_id" value="" class="form-control" >
+                </td>
+			</tr>
+			<tr>
+				<th>이름</th>
+                <td><input type="text" name="nm_name" value="" class="form-control" >
+                </td>
+			</tr>
+			<tr>
+				<th>제목</th>
+				<td><input type="text" name="nm_title" value="" class="form-control">
+				</td>
+			</tr>		
+			<tr>
+				<th>내용</th>
+				<td>
+					<textarea rows="3" name="nm_content" class="form-control"></textarea>
+				</td>
+			</tr>
+            <tr>
+				<th>조회수</th>
+				<td><input type="text" name="nm_hit" value="" class="form-control" readonly>
+				</td>
+			</tr>	
+        </table>
+        
+        <input type=button  value="글작성" id="id_write">
+        <input type=button value="닫기" id="id_close" ><br>
+            
+    </form>
+    <script>
+
+
+    var seq = document.getElementsByName("nm_seq")[0];
+    var id = document.getElementsByName("nm_id")[0];
+    var title = document.getElementsByName("nm_title")[0];
+    var v_name = document.getElementsByName("nm_name")[0];
+    var cont = document.getElementsByName("nm_content")[0];
+    var hit = document.getElementsByName("nm_hit")[0];
+
+
+
+    var v_ajax = new XMLHttpRequest();
+    v_ajax.open("get","json.json",true);    //내 서버 경유
+    v_ajax.send();
+    v_ajax.onreadystatechange = function(){
+        if(v_ajax.readyState==4& v_ajax.status==200){  
+
+            if(!localStorage.getItem("ativex")){
+                var v_record = JSON.parse(v_ajax.responseText); 
+            } else{
+                var v_record = JSON.parse(localStorage.getItem("ativex")); 
+                v_comment = JSON.parse(localStorage.getItem("activexComm")); 
+            }
+
+            var index = v_record[v_record.length-1].seq+1;
+
+            seq.value = index;
+            hit.value = 0;
+
+
+            localStorage.setItem("ativex",JSON.stringify(v_record));
+
+            document.getElementById("id_close").addEventListener("click", function(){
+                f_close(v_record, index);
+            })
+
+            document.getElementById("id_write").addEventListener("click", function(){
+                f_write(v_record, index);
+            }) 
+
+
+        }    
+
+
+    }
+    
+
+    function f_write(v_record, index){
+        //alert("메렁");
+        console.log(seq.value)
+        v_gul = {};
+        v_gul.seq = seq.value  ;
+        v_gul.id=id.value  ;
+        v_gul.title =title.value;
+        v_gul.name =v_name.value  ;
+        v_gul.cont = cont.value ;
+        v_gul.hit = hit.value ;
+
+        v_record.push(v_gul);
+
+
+        // v_record[index].seq = seq.value  ;
+        // v_record[index].id=id.value  ;
+        // v_record[index].title =title.value;
+        // v_record[index].name =v_name.value  ;
+        // v_record[index].cont = cont.value ;
+        // v_record[index].hit = hit.value ;
+
+        localStorage.setItem("ativex",JSON.stringify(v_record));
+
+        f_switchScreen();
+
+
+    }
+
+
+    function f_close(v_record, index){
+        localStorage.setItem("ativex",JSON.stringify(v_record));
+        
+        f_switchScreen();
+    }
+
+
+    function f_switchScreen(){
+        document.getElementById("id_editPage").innerHTML=""
+        document.getElementById("id_editPage").style.zIndex=-1;
+        document.getElementById("id_disp").style.zIndex=1;
+        document.getElementById("id_disp").style.opacity=1;
+        init();
+    }
+
+    </script>
+</body>
+</html>

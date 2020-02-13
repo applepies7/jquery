@@ -1,0 +1,260 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>글쓰기</title>
+</head>
+<style>
+    #id_commDiv{
+        position: relative;
+        left: 0px;
+        width: 90%;
+    }
+    #mola{
+        left: 0px;
+        
+    }
+    #reple1{
+        position: relative;
+        display: inline-block;
+        left: 0px;
+        width: 80%;
+    }
+    #reple2{
+        position: relative;
+        display: inline-block;
+        left: 0px;
+        width: 20%;
+    }
+</style>
+
+<body>
+    <form action="writeProc.html" method="GET" class="table table-striped table-bordered ">
+
+        <table class="table table-striped table-bordered " id="table_outside">
+			<colgroup>
+				<col width="20%" />
+				<col/>
+			</colgroup>
+			<tr>
+				<th>글넘버</th>
+                <td><input type="text" name="nm_seq" value="" class="form-control" readonly>
+                </td>
+            </tr>
+            <tr>
+				<th>아이디</th>
+                <td><input type="text" name="nm_id" value="" class="form-control" readonly>
+                </td>
+			</tr>
+			<tr>
+				<th>이름</th>
+                <td><input type="text" name="nm_name" value="" class="form-control" readonly>
+                </td>
+			</tr>
+			<tr>
+				<th>제목</th>
+				<td><input type="text" name="nm_title" value="" class="form-control">
+				</td>
+			</tr>		
+			<tr>
+				<th>내용</th>
+				<td>
+					<textarea rows="3" name="nm_content" class="form-control"></textarea>
+				</td>
+			</tr>
+            <tr>
+				<th>조회수</th>
+				<td><input type="text" name="nm_hit" value="" class="form-control" readonly>
+				</td>
+			</tr>	
+        </table>
+
+        
+        <input type=button  value="수정" id="id_edit">
+        <input type=button value="삭제" id="id_del">
+        <input type=button value="닫기" id="id_close" ><br>
+        <br><div id="id_commDiv" ></div>
+        <br><label for="">답글달기</label><br>
+        <label for="">작성자</label><input type="text" id="id_comm_name" value="" class="form-control" >
+        <label for="">내용</label><textarea rows="3" id="id_comm_cont" class="form-control"></textarea><br>
+        <input type=button  value="악플달기" id="id_comment" class="form-control">
+            
+    </form>
+    <script>
+
+var request = {};                                                  //빈객체 생성
+request.getParameter = function(p_name){    //메소드 추가
+    var v_url = decodeURIComponent(location.href);
+    
+    if(v_url.indexOf("?") == -1) return null;   //아예 넘어온 값이 없다면 더 할 필요없이  종료
+    var v_datas =  v_url.split("?");
+    for(var i=0; i<v_datas.length; i++){
+        var v_amps = v_datas[i].split("&");
+        for(var j=0; j<v_amps.length; j++){
+            var v_equals = v_amps[j].split("=");
+            if(v_equals[0]==p_name){
+                return v_equals[1];
+            }
+        }
+    }
+    return null;    //해당하는 name 값을 못 찾았을 경우
+}
+
+
+    var seq = document.getElementsByName("nm_seq")[0];
+    var id = document.getElementsByName("nm_id")[0];
+    var title = document.getElementsByName("nm_title")[0];
+    var v_name = document.getElementsByName("nm_name")[0];
+    var cont = document.getElementsByName("nm_content")[0];
+    var hit = document.getElementsByName("nm_hit")[0];
+
+    var comment_set = document.getElementById("id_commDiv");
+    var v_comment;
+
+
+
+    var v_ajax = new XMLHttpRequest();
+    v_ajax.open("get","json.json",true);    //내 서버 경유
+    v_ajax.send();
+    v_ajax.onreadystatechange = function(){
+        if(v_ajax.readyState==4& v_ajax.status==200){  
+            //var seq = request.getParameter("seq");
+            //console.log(decodeURIComponent(location.href));
+            //console.log(v_seq);
+            //console.log(v_name);
+            //console.log("메렁~");
+
+            if(!localStorage.getItem("ativex")){
+                var v_record = JSON.parse(v_ajax.responseText); 
+            } else{
+                var v_record = JSON.parse(localStorage.getItem("ativex")); 
+                v_comment = JSON.parse(localStorage.getItem("activexComm")); 
+            }
+
+            var index = 0;
+            for(var i = 0; i<v_record.length; i++){
+                if(v_record[i].seq==v_seq){
+                    index = i;
+                    break;
+                }
+            }
+
+
+            
+
+
+
+            //값을 화면에 뿌려주기
+            seq.value = v_record[index].seq;
+            id.value = v_record[index].id;
+            title.value = v_record[index].title;
+            v_name.value = v_record[index].name;
+            cont.value = v_record[index].cont;
+            hit.value = v_record[index].hit;
+
+            //답글 있으면 화면에 추가
+            f_comment_view(v_record,index, v_comment);
+
+
+            
+
+
+            localStorage.setItem("ativex",JSON.stringify(v_record));
+
+            document.getElementById("id_close").addEventListener("click", function(){
+                f_close(v_record, index);
+            })
+
+            document.getElementById("id_del").addEventListener("click", function(){
+                f_delete(v_record, v_record[index].seq);
+            }) 
+
+            document.getElementById("id_edit").addEventListener("click", function(){
+                f_edit(v_record, index);
+            }) 
+
+            document.getElementById("id_comment").addEventListener("click", function(){
+                f_comment(v_record, v_record[index].seq, index);
+            })
+
+
+        }    
+
+
+    }
+    
+    function f_edit(v_record, index){
+        //alert("메렁");
+        v_record[index].seq = seq.value  ;
+        v_record[index].id=id.value  ;
+        v_record[index].title =title.value;
+        v_record[index].name =v_name.value  ;
+        v_record[index].cont = cont.value ;
+        v_record[index].hit = ( (v_record[index].hit * 1) +1) ;
+
+        localStorage.setItem("ativex",JSON.stringify(v_record));
+
+        f_switchScreen();
+
+
+    }
+
+
+    function f_close(v_record, index){
+        v_record[index].hit= ((v_record[index].hit * 1)  + 1);     //조회수 증가
+        localStorage.setItem("ativex",JSON.stringify(v_record));
+        
+        f_switchScreen();
+    }
+
+    function f_delete(v_record , p_seq){
+        console.log(p_seq);
+        for(var i=0; i< v_record.length; i++){
+            if(v_record[i].seq == p_seq){               // 찾았다면 
+                v_record.splice(i,1);                      //배열 요소 지우기
+                break;
+            }
+        }
+        localStorage.setItem("ativex",JSON.stringify(v_record));
+        f_switchScreen();
+    }
+
+    function f_switchScreen(){
+        document.getElementById("id_editPage").innerHTML=""
+        document.getElementById("id_editPage").style.zIndex=-1;
+        document.getElementById("id_disp").style.zIndex=1;
+        document.getElementById("id_disp").style.opacity=1;
+        document.getElementById("id_write_btn").style.visibility="visible";
+
+        init();
+    }
+
+    function f_comment(p_record, p_seq, index){
+        var v_comm_cont = document.getElementById("id_comm_cont").value;
+        var v_comm_name = document.getElementById("id_comm_name").value;
+        var comm_child={};
+        comm_child.seq=p_seq;   //임시로1
+        comm_child.name = v_comm_name;
+        comm_child.cont =  v_comm_cont;
+        v_comment.push(comm_child);
+        localStorage.setItem("activexComm", JSON.stringify(v_comment));
+        f_comment_view(p_record,index, v_comment)
+       
+    }
+
+    function f_comment_view(v_record,index, v_comment){
+        document.getElementById("id_commDiv").innerHTML="";
+        if(v_comment){
+                    for(var j =0; j<v_comment.length; j++){
+                        if(v_record[index].seq == v_comment[j].seq){   
+                            comment_set.innerHTML +=  "<div id='reple1'>&nbsp&nbsp<span class=' glyphicon glyphicon-arrow-right'></span>" 
+                                    + v_comment[j].cont+ "</div>"+"<div id='reple2'>from "  + v_comment[j].name +"</div><br>"
+                        }
+                    }
+            }
+    }
+    </script>
+</body>
+</html>

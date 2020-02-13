@@ -1,0 +1,113 @@
+
+<!-- saved from url=(0045)http://192.168.20.2/jsstudy/gesiPan/list.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script src="sjy.js"></script>
+<script>
+    out.print("<h1>게시판 목록페이지</h1>");
+    var v_tblN="myGesi";
+    // record 가져오기
+    var v_tbl = "<table border=2>";   // 테이블 모양으로 만들 문자열
+    v_tbl += "<tr><th>글넘버</th><th>아뒤</th><th>제목</th><th>카테고리</th><th>선택</th></tr>";
+    var v_records= JSON.parse(localStorage.getItem(v_tblN));
+
+    //페이징
+    var v_totalGulsu = v_records.length;
+    var v_pageGulsu = 10;
+    var v_totalPage = Math.ceil(v_totalGulsu / v_pageGulsu); /* 나머지가 있으면 +1 */
+    var v_curPage =1;     /* 현재페이지  강제 설정 1*/
+    if(request.getParameter("jh_pg")){
+        v_curPage = request.getParameter("jh_pg"); /* 페이지 값이 파라미터로 넘어왔다면*/
+    }
+    var startGulNum = (v_curPage-1)*v_pageGulsu    //페이지에 해당하는 배열 start index
+    var endGulNum = startGulNum+v_pageGulsu
+
+    //마지막 페이지 처리
+    // if(v_curPage==v_totalPage){
+    //     endGulNum=v_totalGulsu;
+    // }
+
+    if(endGulNum>=v_totalGulsu){    //만약 전체 글수를 넘어서면 글수로 강제세팅
+        endGulNum=v_totalGulsu;
+    }
+
+    for(var i=startGulNum; i< endGulNum; i++){
+       var v_red = v_records[i];
+      v_tbl = v_tbl+ "<tr><td>"+v_red.seq+"</td>"+
+        "<td>"+v_red.uid+"</td>"+  
+        "<td><a href='detail.html?seq="+ v_red.seq +"' >"+ v_red.title+"</a></td>"+
+        "<td>" + v_red.cat+"</a></td>"+"<td><input type=checkbox name=nm_sjy value="+ v_red.seq+"></input></td></tr>";
+    }
+    v_tbl = v_tbl+"</table>";
+
+    //전체페이지 링크 
+    for(var j=1; j<= v_totalPage; j++){
+        v_tbl += "<a href='list.html?jh_pg=" + j + "'>" + j +"</a>&nbsp"
+    }
+    out.print('<br>');
+
+    out.print(v_tbl);
+
+    //글 상세보기
+    function f_detail(p_seq){
+        window.open("detail.html?seq="+p_seq,"sjy","width=200,height=300,left=200,top=100"); // url, name, 속성
+    }    
+
+    //선택된것 지우기
+    function f_deleteSelected(){
+        var sjy= document.getElementsByName("nm_sjy");
+        console.log(sjy)
+        for(var j = 0; j<sjy.length; j++){
+            if(sjy[j].checked){
+                for(var i=0; i< v_records.length; i++){
+                    if(v_records[i].seq == sjy[j].value){       
+                        v_records.splice(i,1);
+                        //i--;                      
+                    }
+                }
+            }
+        }
+        localStorage.setItem(v_tblN,JSON.stringify(v_records)); 
+        //location.replace("list.html");
+    }
+
+     //선택한 것만 지우기
+    //  function f_deleteSelected(){
+    //     var v_ckbxs1 = document.getElementsByName("nm_sjy");
+    //     var v_ckbxs = [];
+    //     for(var i=0; i<v_ckbxs1.length; i++){
+    //         v_ckbxs.push(v_ckbxs1[i]);
+    //     }
+    //     //v_ckbxs = Array.from(v_ckbxs); // ArrayLike를 Array로 변환
+    //     for(var i=0; i<v_ckbxs.length; i++){
+    //         if(v_ckbxs[i].checked){
+    //             v_records.splice(i,1); // 메모리상 배열에서 삭제, 삭제되면 다음것이 앞으로
+    //             v_ckbxs.splice(i,1);    // 건너뛰지 못하게 , i값을 고정
+    //             i--;
+    //         }
+    //     }
+    //     // 배열을 로컬스토리지에 덮어쓰기
+    //     localStorage.setItem(v_tblN,JSON.stringify(v_records));
+    //     location.replace("list.html");
+    // }
+
+    var v_checked = false;  // 전부 해제되어있는 상황을 false로 지정
+    function f_selAll(){
+        var v_ckbxs = document.getElementsByName("nm_sjy");
+        if(!v_checked){
+            for(var i=0; i<v_ckbxs.length; i++){
+                v_ckbxs[i].checked = true;
+            }
+            v_checked=true;
+            return;  //   함수 강제 종료
+        }
+
+        for(var i=0; i<v_ckbxs.length; i++){
+                v_ckbxs[i].checked = false;
+            }
+            v_checked=false;
+    }  
+</script></head><body>
+<a href="write.html">새글쓰깅</a>
+<input type="button" value="선택한것만 지우기" onclick="f_deleteSelected()">
+<input type=button value="전체선택" onclick="f_selAll()">
+</body></html>

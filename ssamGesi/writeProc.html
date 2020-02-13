@@ -1,0 +1,61 @@
+
+<!-- saved from url=(0050)http://192.168.20.2/jsstudy/gesiPan/writeProc.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script src="sjy.js"></script>
+<script>   
+
+  // CRUD -> Create Read Update Delete -> 게시판
+    var v_uid = request.getParameter("nm_id");
+    var v_title = request.getParameter("nm_title");
+    var v_cat = request.getParameterValues("nm_cat"); 
+    var v_cont = request.getParameter("nm_content");  
+    while(v_cont.indexOf("+") != -1){                  // 찾았다면
+        v_cont = v_cont.replace("+","");                // 1개씩만 바꿈
+    }
+   // 잘 분리한 값을 저장
+   var v_tbl = "myGesi";      // localStorage key값 지정
+                                           // 저장할 수 있는 데이타형태가 꼭 문자열이어야한다는 제약사항
+  var v_gul = {};               // 글쓴이, 제목, 내용을 묶어줄 빈 객체
+  v_gul.uid = v_uid;
+  v_gul.title = v_title;
+  v_gul.cont = v_cont;
+  v_gul.cat   = v_cat;
+
+ // 여러개 json을 담으려면 배열이 필요
+ var v_records = [];
+//alert(localStorage.getItem(v_tbl)); // 값이 없을 때 null이 return 된다는 사실 확인
+
+if(!localStorage.getItem(v_tbl)){    // 값이 최초 등록될 때
+  v_gul.seq = 1;                               // 최초 입력값에 대한 고유 키값
+  v_records.push(v_gul);                  // 배열에 json 등록
+} else {                                               // 이미 값이 존재할 때
+  v_records = JSON.parse(localStorage.getItem(v_tbl));
+  v_gul.seq =  v_records[v_records.length-1].seq + 1;    // 마지막값에 +1  
+  v_records.push(v_gul);
+}
+ // 상품, 고객, 관계를 찾을때  행위!
+  localStorage.setItem(v_tbl,JSON.stringify(v_records));  // 저장
+  
+  alert("잘 저장되었습니당!");
+  // 목록 페이이지로 이동
+  /*
+      location.href = url   ;   캐시를 허용 (이전 페이지를 그냥 보여줄 수 있음)
+      location.replace(url);   캐시를 허용하지 않고 재요청 (새 페이지를 가져옴)
+      location.reload()   -> 새로고침 기능, 이건 사용하면 프로그램 설계가 어딘가 좋지않음
+  */
+  location.replace("list.html");
+
+    //저장소 localStorage(대용량 cookie)  offline상태로 프로그램상태를 유지하기 
+    // 위해서 합의되어 개발됨, 개발자에게는 JSON 연습을 위해 좋음
+    /*  인코딩/디코딩
+          escape/unescape                                                   옛날판
+          encodeURI/decodeURI                                           조금 옛날판
+          encodeURIComponent/decodeURIComponent   최신판
+    */
+    // 문자열 속성, 메소드 중에 잘 써야 하는 것들
+    // length, indexOf, substr 또는 substring, replace, split은 기본적으로 잘 써야 함
+    //alert(v_cont.indexOf("김태현")); // v_cont안에서 김태현 문자열 찾기, 못찾으면 -1
+    //v_cont = v_cont.replace("+","");   // +를 빈 공백으로 바꾸기 , 겨우 1개만
+     //  v_cont = v_cont.replace(/\+/g,"");             // 양형인씨 주장 확실히 정규표현식 안했음  
+
+</script></head><body></body></html>
