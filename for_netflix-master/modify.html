@@ -50,35 +50,54 @@
         var v_uid = request.getParameter("nm_id");
         var v_title = request.getParameter("nm_title");
         var v_content = request.getParameter("nm_content");
-        var v_cat = request.getParameterValues("nm_cat")
-        v_content = v_content.replace(/\+/gi, " "); //
+        var v_cat = request.getParameterValues("nm_cat");
+        var v_seq = request.getParameter("nm_seq");
+        console.log(v_seq);
+        if(v_content != null){
+             v_content = v_content.replace(/\+/gi, " ");
+         }
         var v_tbl = "my_board"; //localstorage key값 지정 (저장 데이터는 꼭 문자열이어야 함. 객체는 object라는 문자열로 대체됨)
-        var v_gul = {};
-        v_gul.uid = v_uid;
-        v_gul.title = v_title;
-        v_gul.cat = v_cat
-        v_gul.content = v_content;
+        // var v_gul = {};
+        // v_gul.uid = v_uid;
+        // v_gul.title = v_title;
+        // v_gul.cat = v_cat
+        // v_gul.content = v_content;
 
         var v_record = [];
+        v_record = JSON.parse(localStorage.getItem(v_tbl));
+        for (let i = 0; i < v_record.length; i++) {
+            if(v_record[i].seq == v_seq){
+                v_record[i].uid = v_uid;
+                v_record[i].title = v_title;
+                v_record[i].cat = v_cat;
+                v_record[i].content = v_content;
+                console.log(v_record[i]);
+            }
+        }
+        //변경된 아이템을 로컬 스토리지에 저장
+        localStorage.setItem(v_tbl,JSON.stringify(v_record));
+
+
+
 
         //로컬 스토리지는 문자열만 저장 가능 하기때문에 
         //alert(localStorage.getItem(v_tbl)); // 값이없을때null.
-        if (!localStorage.getItem(v_tbl)) { //값이 최초 등록될때
-            v_gul.seq = 1;
-            v_record.push(v_gul);
-        } else { //값이 있다면?
-            v_record = JSON.parse(localStorage.getItem(v_tbl));
-            v_gul.seq = v_record[v_record.length - 1].seq + 1;
-            v_record.push(v_gul);
-        }
-        localStorage.setItem(v_tbl, JSON.stringify(v_record));
+        // if (!localStorage.getItem(v_tbl)) { //값이 최초 등록될때
+        //     v_gul.seq = 1;
+        //     v_record.push(v_gul);
+        // } else { //값이 있다면?
+        //     v_record = JSON.parse(localStorage.getItem(v_tbl));
+        //     v_gul.seq = v_record[v_record.length - 1].seq + 1;
+        //     v_record.push(v_gul);
+        // }
+        // localStorage.setItem(v_tbl, JSON.stringify(v_record));
         /*
         location.herf = url : 캐시 허용 (이전 페이지를 그냥 보여줌)
         location.replace(url) : 캐시 허용하지 않고 재요청 (새페이지를 가져옴 반영된 결과를 적용해야 할때)
         location.reload() --> 되도록 사용하지 않아야 하는 기능 (설계에 문제가 있는 것으로 봐야함.)
         */
 
-    location.replace("list.html");
+       location.replace("list.html");
     </script>
 
 
