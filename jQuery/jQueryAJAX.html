@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
+</head>
+
+<form name="nm_fm">
+    이름<input type="text" name="nm_name" value="123123">
+    별명<input type="text" name="nm_alias1" value="444444444444444">
+    <input type="file" id="id_file" value="">
+</form>
+
+
+<body>
+    <script>
+        //jQuery AJAX사용시 주의 사항. 특이케이스 파일업로드!
+
+        $("#id_file").on("click", function () {
+            var v_file = document.getElementById("id_file").files[0];
+            var v_formData = new FormData(); // 이름=값형식으로 보내기위한 form
+            v_formData.append("fileToUpload", v_file);
+            $.ajax({
+                method: "post", //파일업로드는 반드시 post
+                url: "../board/upload.php",
+                async: true, //무조건 트루 곧 생략 가능
+                data: v_formData, //data에 파일 객체를 넘겨줘야 함. 생성된 파일 데이터가 포함된 FormData를 붙여줌.
+                cache: true, // cache는 false가 필수는 아니지만 추천함..
+                // 꼭 contentType,processData 를 true -> false로 변경할 것.
+                contentType: false, //전송데이터 인코딩 방식 url-encoded, 생략가능
+                processData: false, //전송데이터를 자동으로 url-encoded 방식으로 바꿈
+                success: function (p_result) {
+                    alert(p_result);
+
+                },
+            });
+
+        }); //파일 전송시 
+        // $.ajax({
+        //     method: "post", //파일업로드는 반드시 post
+        //     url: "../board/upload.php",
+        //     async: true, //무조건 트루 곧 생략 가능
+        //     data: "넘길 데이터",
+        //     cache: true, // cache는 false가 필수는 아니지만 추천함..
+        //     // 꼭 contentType,processData 를 true -> false로 변경할 것.
+        //     contentType: false, //전송데이터 인코딩 방식 url-encoded, 생략가능
+        //     processData: false, //전송데이터를 자동으로 url-encoded 방식으로 바꿈
+        //     success: function (p_result) {
+
+        //     },
+        //     }
+        // });
+
+
+
+        // //form 안에 전송할것이 많은 경우 serialize 메소드로 주소줄에 붙일수 있음
+        // console.log($("form[name=nm_fm]").serialize());
+
+        // //jQuery ajax 주 사용 형태
+        // $.ajax({ //대소문자 구분!!
+        //     method: "get", //method는 type로 대체 해도 됨 post,get
+        //     url: "../AJAX/data.xml?"+$("form[name=nm_fm]").serialize(),
+        //     //data: $("form[name=nm_fm]").serialize(),
+        //     success: function (p_result) {
+        //         console.log(p_result);
+
+        //     }
+
+        // });
+
+
+
+        //자바스크립트 ajax형태
+        /*
+        var v_ajax = new XMLHttpRequest();
+        v_ajax.open("get", "serverget.php", true); // 내 서버 경유
+        v_ajax.send();
+        v_ajax.onreadystatechange = function () {
+            if (v_ajax.readyState == 4 && v_ajax.status == 200) {
+                var v_readData = v_ajax.responseText;
+                var v_jsonData = JSON.parse(v_readData.substr(15, v_readData.length - 16));
+            }
+        } 
+        */
+        // //기본 형태
+        // $.ajax({
+        //     method: "get", //method는 type로 대체 해도 됨 post,get
+        //     url: "url",
+        //     async: true, //무조건 트루 곧 생략 가능
+        //     data: "넘길 데이터",
+        //     dataType: "넘어온 데이터의 타입", //자동으로 알아서 처리함 곧 생략가능
+        //     cache: true, //브라우저 캐쉬 여부
+        //     contentType: true, //전송데이터 인코딩 방식 url-encoded, 생략가능
+        //     processData: true, //전송데이터를 자동으로 url-encoded 방식으로 바꿈
+        //     success: function (p_result) {
+        //     },
+        //     error: function (jqXHR, txtStatus, error) { //생략가능  
+        //     }
+        // });
+    </script>
+
+
+</body>
+
+</html>
