@@ -2,14 +2,13 @@
 <html lang="en">
 
   <head>
+    
     <title>netflix category finder</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
     <link href="https://fonts.googleapis.com/css?family=DM+Sans:300,400,700&display=swap" rel="stylesheet">
-
     <link rel="stylesheet" href="fonts/icomoon/style.css">
-
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/bootstrap-datepicker.css">
     <link rel="stylesheet" href="fonts/flaticon/font/flaticon.css">
@@ -56,7 +55,7 @@
               <nav class="site-navigation text-right ml-auto d-none d-lg-block" role="navigation">
                 <ul class="site-menu main-menu js-clone-nav ml-auto ">
                   <li><a href="index.html" class="nav-link">Home</a></li>
-                  <li class="active"><a href="contact.html" class="nav-link">Contact</a></li>
+                  <li class="active"><a href="board.html" class="nav-link">Board</a></li>
                 </ul>
               </nav>
             </div>
@@ -85,13 +84,116 @@
 
         </div>
       </div>
+
+      <table class="table table-striped table-bordered table-hover">
+        <colgroup>
+          <col width="5%" />
+          <col width="10%" />
+          <col />
+          <col width="10%" />
+          <col width="10%" />
+          <col width="10%" />
+        </colgroup>
+        <tr>
+          <th class="text-center">글번호</th>
+          <th class="text-center">분류</th>
+          <th class="text-center">제목</th>
+          <th class="text-center">작성자</th>
+          <th class="text-center">등록일</th>
+          <th class="text-center">조회수</th>
+        </tr>
+  
+        <script>
+
+          var v_records = JSON.parse(localStorage.getItem(v_tbl));
+          for (var i = 0; i < v_records.length; i++) {
+              var v_red = v_records[i]
+              v_tbl1 = v_tbl1 + "<tr><td>" + v_red.seq + "</td><td>" + v_red.uid + "</td><td><a href='detail.html?seq=" +
+                  v_red.seq + "'>" + v_red.title +
+                  "</a></td><td>" + v_red.cat +
+                  "</td><td><input type='checkbox' name='nm_cks' value='" + v_red.seq + "'></td></tr>";
+          }
+          out.print(v_tbl1);
+  
+  
+          function f_detail(p_seq) {
+              window.open("detail.html?seq=" + p_seq, "글보기", "width=400, height=350 left=300")
+          }
+  
+          function f_del() {
+              var v_chk = [];
+              var z = 0;
+              var v_chkbox = document.getElementsByName("nm_cks");
+              for (let i = 0; i < v_chkbox.length; i++) {
+                  if (v_chkbox[i].checked) {
+                      v_chk[z] = v_chkbox[i].value;
+                      z++
+                  }
+              }
+              for (let i = 0; i < v_records.length; i++) {
+                  for (let j = 0; j < v_chk.length; j++) {
+                      if (v_records[i].seq == v_chk[j]) {
+                          v_records.splice(i, 1);
+                      }
+                  }
+              }
+              localStorage.setItem(v_tbl, JSON.stringify(v_records)); // 저장
+              alert("잘 삭제 되었습니당!");
+              location.replace("list.html");
+          }
+  
+          function f_allchktrue() {
+              var v_chk = [];
+              var v_chkbox = document.getElementsByName("nm_cks");
+              for (let i = 0; i < v_chkbox.length; i++) {
+                  v_chkbox[i].checked = true;
+                  v_chk[i] = v_chkbox[i].value;
+              }
+         
+          }
+          var v_checked = false; // 전부 해제되어있는 상황을 false로 지정
+  
+          function f_selAll() {
+              var v_chkbox = document.getElementsByName("nm_cks");
+              if (!v_checked) {
+                  for (var i = 0; i < v_chkbox.length; i++) {
+                      v_chkbox[i].checked = true;
+                  }
+                  v_checked = true;
+                  return; //   함수 강제 종료
+              }
+              for (var i = 0; i < v_chkbox.length; i++) {
+                  v_chkbox[i].checked = false;
+              }
+              v_checked = false;
+          }
+  
+          function f_allchkfalse() {
+              var v_chkbox = document.getElementsByName("nm_cks");
+              for (let i = 0; i < v_chkbox.length; i++) {
+                  v_chkbox[i].checked = false;
+              }
+          }
+          // var v_records = [];
+          // console.log(v_chk)
+          // v_records = JSON.parse(localStorage.getItem(v_tbl));
+          // for (let i = 0; i < v_records.length; i++) {
+          //     for (let j = 0; j < v_chk.length; j++) {
+          //         if (v_records[i].seq == v_chk[j]) { // 찾았다면 
+          //             v_records.splice(i, 1);
+          //         }
+          //     }
+          // }
+          // localStorage.setItem(v_tbl, JSON.stringify(v_records)); // 저장
+          // alert("잘 삭제 되었습니당!");
+          // document.location.reload();
+      </script>
+      </table>
+  
+
         <div class="row">
           <script>
-            out.print("<h1>게시판 목록 페이지</h1>");
-            var v_tbl = "my_board"
-            //record 가져오기
-            var v_tbl1 = "<table border>"
-            v_tbl1 += "<tr><th>글번호</th><th>아이디</th><th>제목</th><th>카테고리</th><th>선택</th></tr>"
+
             var v_records = JSON.parse(localStorage.getItem(v_tbl));
             for (var i = 0; i < v_records.length; i++) {
                 var v_red = v_records[i]
