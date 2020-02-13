@@ -26,9 +26,15 @@
 
 <script>
     $("input[id=btn_add1]").on("click",function (){
-        var v_img = $("<img></img>").attr("src","/jsStudy/image/black.jpeg").attr("width",100).attr("height",100);
+        //var v_img = $("<img></img>").attr("src","/jsStudy/image/black.jpeg").attr("width",100).attr("height",100);
         //$("#wrapper").append(v_img);
         //v_img.appendTo($("#wrapper"));
+        var v_attr = {
+            "src":"/jsStudy/image/black.jpeg",
+            "width": "100",
+            "height": "100"
+        } //json형태로 속성값을 받을 수 있음.
+        var v_img = $("<img></img>").attr(v_attr);
         $("#wrapper").prepend(v_img)
     });
 
