@@ -1,0 +1,47 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>가장 많이 쓰는 jQuery Ajax형태</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+<body>
+    <form name="nm_fm">
+        이름 <input type=text name="nm_name" value=""><br>
+        나이 <input type=text name="nm_age" value="" ><br>
+        남 <input type=radio name="nm_sb" value="m">
+        여 <input type=radio name="nm_sb" value="f"><br>
+        <input type=submit value="전송"> 
+        <!-- //submit버튼이 아니면 required 등의 폼 입력제한 기능이 동작하지 않음. -->
+    </form>
+<script>
+    $("form[name=nm_fm]").on("submit",function(){
+        console.log(this);
+        var v_formData =new FormData(this) ; //this = dom객체 form
+        v_formData.append("nm_etc","추가 할 값");
+        console.log(v_formData);
+        $.ajax({
+            method:"post",
+            url:"serverSide.php",
+            data:v_formData,
+            
+            // {
+            //     "nm_name":$("input[nm_name]").val(),
+            //     "nm_age":$("input[nm_age]").val(),
+            //     "nm_sb":$("input[nm_sb]").val()
+            // },
+            //$(this).serialize(),  //?  this를 jQuery객체로 변환하면 serialze를 사용할수 있음
+            //formData 생성시 인코딩이 이루어짐, jQuery가 한번더 인코딩을 시도하므로 막아줘야 함
+            processData:false, //formData사용시 써줘야 함.
+            contentType:false, //formData사용시 써줘야 함.
+            
+            success:function(p_result){
+                alert(p_result );
+            }
+        });
+        return false;  // 아작스 통신 할거면 false
+    });
+</script>
+</body>
+</html>

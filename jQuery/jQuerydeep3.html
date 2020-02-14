@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<title>Document</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
+
+<body>
+    <div id="id_par">
+        <div class="cl_child aa">송주영</div>
+        <div class="cl_child bb">또라이</div>
+        <div class="cl_child cc">마스터</div>
+        <div class="cl_child dd">오후반</div>
+    </div>
+        
+
+</body>
+<script>
+
+//jQuery 자주쓰는 유용한 메서드 css,filter,find,end(해당 메서드가 위치한 j쿼리 객체로),eq(인덱스 넘버와 같음),parent/children
+$("#id_par").find($(".cc")).css("display","none");
+//$(".cl_child").filter($(".bb")).css("color","magenta"); //==
+$(".cl_child.bb").css("color","magenta"); //==
+
+//$(".cl_child").eq(0).css("color","magenta").end().css("border","2px solid gray");
+$(".cl_child").eq(1).css("color","pink").css("backgroundColor","blue").css("fontSize","0.5em");
+console.log($(".cl_child").eq(1).css("color")); //값 읽어오기
+$(".cl_child").eq(2).css({
+"color": "white",
+"backgroundColor":"black",
+"fontSize":"2em"
+});
+
+</script>
+
